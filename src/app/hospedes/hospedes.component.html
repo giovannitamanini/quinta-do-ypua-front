@@ -1,0 +1,125 @@
+<div class="body">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#hospedeCadastroModal">
+    + Hóspede
+  </button>
+
+  <!-- Modal Cadastro -->
+  <div class="modal fade" id="hospedeCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Novo hóspede</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="criarHospede()">
+            <div class="mb-3">
+                <label class="form-label" for="nome">Nome</label>
+                <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="novoHospede.nome"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="sobrenonome">Sobrenome</label>
+              <input class="form-control" id="sobrenome" name="sobrenome" type="text" placeholder="Sobrenome" required [(ngModel)]="novoHospede.sobrenome"/>
+            </div>
+            <div class="mb-3">
+                <label class="form-label" for="cpf">CPF</label>
+                <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" required  [(ngModel)]="novoHospede.cpf"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="email">E-mail</label>
+              <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" required [(ngModel)]="novoHospede.email"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="cep">CEP</label>
+              <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" required [(ngModel)]="novoHospede.cep"/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#hospedeCadastroModal">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal Edição -->
+    <div class="modal fade" id="hospedeEdicaoModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editando hóspede</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="atualizarHospede()">
+              <div class="mb-3">
+                <label class="form-label" for="nome">Nome</label>
+                <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" data-sb-validations="required" [(ngModel)]="hospedeEditado.nome"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="sobrenome">Sobrenome</label>
+                <input class="form-control" id="sobrenome" name="sobrenome" type="text" placeholder="Sobrenome" data-sb-validations="required" [(ngModel)]="hospedeEditado.sobrenome"/>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label" for="cpf">CPF</label>
+                  <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" data-sb-validations="required" [(ngModel)]="hospedeEditado.cpf"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="email">E-mail</label>
+                <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" data-sb-validations="required"[(ngModel)]="hospedeEditado.email"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="cep">CEP</label>
+                <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" data-sb-validations="required" [(ngModel)]="hospedeEditado.cep"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#hospedeEdicaoModal">Atualizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div>
+    <table class="table table-striped listagem table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th scope="col">Sobrenome</th>
+          <th scope="col">CPF</th>
+          <th scope="col">E-mail</th>
+          <th scope="col">CEP</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let hospede of hospedes">
+          <td>{{ hospede.id }}</td>
+          <td>{{ hospede.nome }}</td>
+          <td>{{ hospede.sobrenome }}</td>
+          <td>{{ hospede.cpf }}</td>
+          <td>{{ hospede.email }}</td>
+          <td>{{ hospede.cep }}</td>
+          <td style="text-align: right;">
+            <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#hospedeEdicaoModal" (click)="hospedeEditado = hospede">
+              <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
+
+              <button type="button" class="btn btn-sm" aria-label="Left Align" (click)="excluirHospede(hospede.id)">
+                <span class="fa fa-trash-o fa-md" aria-hidden="true"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>

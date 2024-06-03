@@ -1,0 +1,115 @@
+<div class="body">
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#acomodacaoCadastroModal">
+    + Acomodação
+  </button>
+
+  <!-- Modal Cadastro  -->
+  <div class="modal fade" id="acomodacaoCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nova Acomodação</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="criarAcomodacao()">
+            <div class="mb-3">
+              <label class="form-label" for="nome">Nome</label>
+              <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="novaAcomodacao.nome"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="valorDiaria">Valor Diária</label>
+              <input class="form-control" id="valorDiaria" name="valorDiaria" type="number" placeholder="Valor diária" required [(ngModel)]="novaAcomodacao.valorDiaria"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="quantidadeHospedes">Quantidade de Hóspedes</label>
+              <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="novaAcomodacao.quantidadeHospedes"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="descricaoCamas">Descrição das camas</label>
+              <input class="form-control" id="descricaoCamas" name="descricaoCamas" type="text" placeholder="Descrição das camas" required [(ngModel)]="novaAcomodacao.descricaoCamas"/>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#acomodacaoCadastroModal">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+    <!-- Modal Edição -->
+    <div class="modal fade" id="acomodacaoEdicaoModal" tabindex="-1" role="dialog" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Editando acomodação</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form (ngSubmit)="atualizarAcomodacao()">
+              <div class="mb-3">
+                <label class="form-label" for="nome">Nome</label>
+                <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="acomodacaoEditada.nome"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="valorDiaria">Valor Diária</label>
+                <input class="form-control" id="valorDiaria" name="valorDiaria" type="number" placeholder="Valor diária" required [(ngModel)]="acomodacaoEditada.valorDiaria"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="quantidadeHospedes">Quantidade de Hóspedes</label>
+                <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="acomodacaoEditada.quantidadeHospedes"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="descricaoCamas">Descrição das camas</label>
+                <input class="form-control" id="descricaoCamas" name="descricaoCamas" type="text" placeholder="Descrição das camas" required [(ngModel)]="acomodacaoEditada.descricaoCamas"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#acomodacaoEdicaoModal">Atualizar</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  <div>
+    <table class="table table-striped listagem table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Nome</th>
+          <th style="text-align: right;" scope="col">Valor Diária</th>
+          <th style="text-align: right;" scope="col">Qtd. Hóspedes</th>
+          <th style="text-align: right;" scope="col">Descrição das camas</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let acomodacao of acomodacoes">
+          <td>{{ acomodacao.id }}</td>
+          <td>{{ acomodacao.nome }}</td>
+          <td style="text-align: right;">{{ acomodacao.valorDiaria }}</td>
+          <td style="text-align: right;">{{ acomodacao.quantidadeHospedes }}</td>
+          <td style="text-align: right;">{{ acomodacao.descricaoCamas }}</td>
+          <td style="text-align: right;">
+            <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#acomodacaoEdicaoModal" (click)="acomodacaoEditada = acomodacao">
+              <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
+
+              <button type="button" class="btn btn-sm" aria-label="Left Align" (click)="excluirAcomodacao(acomodacao.id)">
+                <span class="fa fa-trash-o fa-md" aria-hidden="true"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+</div>
