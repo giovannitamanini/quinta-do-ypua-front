@@ -11,8 +11,6 @@ import { AcomodacoesService } from '../acomodacoes/acomodacoes.service';
 export class ReservasComponent implements OnInit {
   acomodacoes: any[] = [];
   hospedes: any[] = [];
-  funcionarios: any[] = [];
-
   reservas: any[] = [];
   novaReserva: any = {};
   editando = false;
@@ -82,7 +80,7 @@ export class ReservasComponent implements OnInit {
     if(id != undefined){
       this.acomodacoes.forEach(acomodacao => {
         if(acomodacao.id.toString() == id.toString()){
-          out_desc = acomodacao.numero;
+          out_desc = acomodacao.nome;
         }
       });
     }

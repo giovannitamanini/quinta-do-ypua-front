@@ -15,7 +15,7 @@
           </button>
         </div>
         <div class="modal-body">
-          <form (ngSubmit)="criarHospede()">
+          <form #form="ngForm" (ngSubmit)="criarHospede()">
             <div class="mb-3">
                 <label class="form-label" for="nome">Nome</label>
                 <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="novoHospede.nome"/>
@@ -38,7 +38,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#hospedeCadastroModal">Salvar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#hospedeCadastroModal" [disabled]="!form.valid">Salvar</button>
             </div>
           </form>
         </div>
@@ -60,23 +60,23 @@
             <form (ngSubmit)="atualizarHospede()">
               <div class="mb-3">
                 <label class="form-label" for="nome">Nome</label>
-                <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" data-sb-validations="required" [(ngModel)]="hospedeEditado.nome"/>
+                <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="hospedeEditado.nome"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="sobrenome">Sobrenome</label>
-                <input class="form-control" id="sobrenome" name="sobrenome" type="text" placeholder="Sobrenome" data-sb-validations="required" [(ngModel)]="hospedeEditado.sobrenome"/>
+                <input class="form-control" id="sobrenome" name="sobrenome" type="text" placeholder="Sobrenome" required [(ngModel)]="hospedeEditado.sobrenome"/>
               </div>
               <div class="mb-3">
                   <label class="form-label" for="cpf">CPF</label>
-                  <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" data-sb-validations="required" [(ngModel)]="hospedeEditado.cpf"/>
+                  <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" required [(ngModel)]="hospedeEditado.cpf"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="email">E-mail</label>
-                <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" data-sb-validations="required"[(ngModel)]="hospedeEditado.email"/>
+                <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" required [(ngModel)]="hospedeEditado.email"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="cep">CEP</label>
-                <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" data-sb-validations="required" [(ngModel)]="hospedeEditado.cep"/>
+                <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" required [(ngModel)]="hospedeEditado.cep"/>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>

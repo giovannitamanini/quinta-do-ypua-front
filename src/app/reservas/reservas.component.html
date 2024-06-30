@@ -17,21 +17,15 @@
         <div class="modal-body">
           <form (ngSubmit)="criarReserva()">
             <div class="mb-3">
-              <label class="form-label" for="idFuncionario">Funcionario</label>
-              <select class="form-control mb-3" id="idFuncionario"  name="idFuncionario" [(ngModel)]="novaReserva.idFuncionario">
-                <option *ngFor="let funcionario of funcionarios" value="{{ funcionario.id }}">{{ funcionario.nome }}</option>
+              <label class="form-label" for="statusPagamento">Hóspede</label>
+              <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="novaReserva.idHospede">
+                <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}">{{ hospede.nome }}</option>
               </select>
             </div>
             <div class="mb-3">
               <label class="form-label" for="statusPagamento">Acomodação</label>
               <select class="form-control mb-3" id="idAcomodacao"  name="idAcomodacao" [(ngModel)]="novaReserva.idAcomodacao">
-                <option *ngFor="let acomodacao of acomodacoes" value="{{ acomodacao.id }}">{{ acomodacao.numero }}</option>
-              </select>
-            </div>
-            <div class="mb-3">
-              <label class="form-label" for="statusPagamento">Hóspede</label>
-              <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="novaReserva.idHospede">
-                <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}">{{ hospede.nome }}</option>
+                <option *ngFor="let acomodacao of acomodacoes" value="{{ acomodacao.id }}">{{ acomodacao.nome }}</option>
               </select>
             </div>
             <div class="mb-3">
@@ -39,14 +33,24 @@
               <input class="form-control" id="dataInicial" name="dataInicial" type="date" placeholder="Data Reserva" required [(ngModel)]="novaReserva.dataInicial"/>
             </div>
             <div class="mb-3">
-                <label class="form-label" for="qtdDiarais">Quantidade Diárias</label>
-                <input class="form-control" id="qtdDiarais" name="qtdDiarais" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="novaReserva.qtdDiarais"/>
+                <label class="form-label" for="qtdDiarias">Quantidade Diárias</label>
+                <input class="form-control" id="qtdDiarias" name="qtdDiarias" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="novaReserva.qtdDiarias"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="statusReserva">Status Reserva</label>
+              <select class="form-control mb-3" id="statusReserva" name="statusReserva" [(ngModel)]="novaReserva.statusReserva">
+                <option value="PENDENTE" selected>Pendente</option>
+                <option value="EM_ANDAMENTO">Em andamento</option>
+                <option value="FINALIZADA">Finalizada</option>
+                <option value="CANCELADA">Cancelada</option>
+              </select>
             </div>
             <div class="mb-3">
               <label class="form-label" for="statusPagamento">Status Pagamento</label>
               <select class="form-control mb-3" id="statusPagamento" name="statusPagamento" [(ngModel)]="novaReserva.statusPagamento">
                 <option value="PENDENTE" selected>Pendente</option>
                 <option value="PAGO">Pago</option>
+                <option value="CANCELADO">Cancelado</option>
               </select>
             </div>
             <div class="mb-3">
@@ -57,6 +61,10 @@
               <label class="form-label" for="dataCheckOut">Data Check-Out</label>
               <input class="form-control" id="dataCheckOut" name="dataCheckOut" type="date" placeholder="Data Check-out" required [(ngModel)]="novaReserva.dataCheckOut"/>
             </div>
+            <div class="mb-3">
+              <label class="form-label" for="valorTotal">Valor total</label>
+              <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Valor total" required  [(ngModel)]="novaReserva.valorTotal"/>
+          </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -73,7 +81,7 @@
       <div class="modal-dialog" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Editando Funcionário</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Editando Reserva</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -81,36 +89,40 @@
           <div class="modal-body">
             <form (ngSubmit)="atualizarReserva()">
               <div class="mb-3">
-                <label class="form-label" for="idFuncionario">Funcionario</label>
-                <select class="form-control mb-3" id="idFuncionario"  name="idFuncionario" [(ngModel)]="reservaEditada.idFuncionario">
-                  <option *ngFor="let funcionario of funcionarios" value="{{ funcionario.id }}" [attr.selected]="funcionario.id == reservaEditada.idFuncionario">{{ funcionario.nome }}</option>
-                </select>
-              </div>
-              <div class="mb-3">
-                <label class="form-label" for="idAcomodacao">Acomodação</label>
-                <select class="form-control mb-3" id="idAcomodacao"  name="idAcomodacao" [(ngModel)]="reservaEditada.idAcomodacao">
-                  <option *ngFor="let acomodacao of acomodacoes" value="{{ acomodacao.id }}" [attr.selected]="acomodacao.id == reservaEditada.idAcomodacao">{{ acomodacao.numero }}</option>
-                </select>
-              </div>
-              <div class="mb-3">
                 <label class="form-label" for="idHospede">Hóspede</label>
                 <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="reservaEditada.idHospede">
                   <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}" [attr.selected]="hospede.id == reservaEditada.idHospede">{{ hospede.nome }}</option>
                 </select>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="dataInicial">Data Reserva</label>
-                <input class="form-control" id="dataInicial" name="dataInicial" type="date" placeholder="Data Reserva" required [(ngModel)]="reservaEditada.dataInicial"/>
+                <label class="form-label" for="idAcomodacao">Acomodação</label>
+                <select class="form-control mb-3" id="idAcomodacao"  name="idAcomodacao" [(ngModel)]="reservaEditada.idAcomodacao">
+                  <option *ngFor="let acomodacao of acomodacoes" value="{{ acomodacao.id }}" [attr.selected]="acomodacao.id == reservaEditada.idAcomodacao">{{ acomodacao.nome }}</option>
+                </select>
               </div>
               <div class="mb-3">
-                  <label class="form-label" for="qtdDiarais">Quantidade Diárias</label>
-                  <input class="form-control" id="qtdDiarais" name="qtdDiarais" type="number"  datetime="yyyy-MM-dd" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarais"/>
+                <label class="form-label" for="dataInicial">Data Reserva</label>
+                <input class="form-control" id="dataInicial" name="dataInicial" type="date" datetime="yyyy-MM-dd" placeholder="Data Reserva" required [(ngModel)]="reservaEditada.dataInicial"/>
+              </div>
+              <div class="mb-3">
+                  <label class="form-label" for="qtdDiarias">Quantidade Diárias</label>
+                  <input class="form-control" id="qtdDiarias" name="qtdDiarias" type="number"  datetime="yyyy-MM-dd" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarias"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="statusReserva">Status Reserva</label>
+                <select class="form-control custom-select custom-select-lg mb-3" id="statusReserva"  name="statusReserva" [(ngModel)]="reservaEditada.statusReserva">
+                  <option value="PENDENTE" selected>Pendente</option>
+                  <option value="EM_ANDAMENTO">Em andamento</option>
+                  <option value="FINALIZADA">Finalizada</option>
+                  <option value="CANCELADA">Cancelada</option>
+                </select>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="statusPagamento">Status Pagamento</label>
                 <select class="form-control custom-select custom-select-lg mb-3" id="statusPagamento"  name="statusPagamento" [(ngModel)]="reservaEditada.statusPagamento">
                   <option value="PENDENTE" selected>Pendente</option>
                   <option value="PAGO">Pago</option>
+                  <option value="CANCELADO">Cancelado</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -121,6 +133,10 @@
                 <label class="form-label" for="dataCheckOut">Data Check-Out</label>
                 <input class="form-control" id="dataCheckOut" name="dataCheckOut" type="date" placeholder="Data Check-out" required [(ngModel)]="reservaEditada.dataCheckOut"/>
               </div>
+              <div class="mb-3">
+                <label class="form-label" for="valorTotal">Valor Total</label>
+                <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarais"/>
+            </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limparObjetoEdicao()">Cancelar</button>
                 <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#reservaEdicaoModal">Atualizar</button>
@@ -136,26 +152,49 @@
       <thead>
         <tr>
           <th scope="col">#</th>
-          <th scope="col">Quarto</th>
           <th scope="col">Hóspede</th>
+          <th scope="col">Acomodação</th>
           <th scope="col">Data Reserva</th>
           <th scope="col">Diárias</th>
           <th scope="col">Check-In</th>
           <th scope="col">Check-Out</th>
-          <th scope="col">Pagamento</th>
+          <th scope="col">Status Reserva</th>
+          <th scope="col">Valor</th>
+          <th scope="col">Status Pagamento</th>
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let reserva of reservas">
           <td>{{ reserva.id }}</td>
-          <td>{{ getDescricaoAcomodacao(reserva.idAcomodacao) }}</td>
           <td>{{ getDescricaoHospede(reserva.idHospede) }}</td>
+          <td>{{ getDescricaoAcomodacao(reserva.idAcomodacao) }}</td>
           <td>{{ formatData(reserva.dataInicial) }}</td>
-          <td>{{ reserva.qtdDiarais }}</td>
+          <td>{{ reserva.qtdDiarias }}</td>
           <td>{{ formatData(reserva.dataCheckIn) }}</td>
           <td>{{ formatData(reserva.dataCheckOut) }}</td>
-          <td><span class="badge bg-{{ reserva.statusPagamento === 'PAGO' ? 'success' : 'danger' }}">{{ reserva.statusPagamento }}</span> </td>
+          <td>
+            <span class="badge bg-{{ 
+              reserva.statusReserva === 'PENDENTE' ? 'warning' : 
+              reserva.statusReserva === 'EM_ANDAMENTO' ? 'primary' :
+              reserva.statusReserva === 'FINALIZADA' ? 'success' : 
+              reserva.statusReserva === 'CANCELADA' ? 'danger' :
+              'secondary'
+            }}">
+              {{ reserva.statusReserva }}
+            </span> 
+          </td>
+          <td>{{ reserva.valorTotal }}</td>
+          <td>
+            <span class="badge bg-{{ 
+              reserva.statusPagamento === 'PENDENTE' ? 'warning' : 
+              reserva.statusPagamento === 'PAGO' ? 'success' :
+              reserva.statusPagamento === 'CANCELADO' ? 'danger' :
+              'secondary'
+            }}">
+              {{ reserva.statusPagamento }}
+            </span> 
+          </td>
 
           <td style="text-align: right;">
             <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#reservaEdicaoModal" (click)="copiarObjetoEdicao(reserva)">

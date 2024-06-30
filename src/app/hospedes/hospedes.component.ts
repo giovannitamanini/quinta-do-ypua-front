@@ -43,9 +43,7 @@ export class HospedesComponent implements OnInit {
 
   excluirHospede(id:any) {
     this.hospedeService.excluirHospede(id).subscribe(() => {
-      console.log("Carregando dados novamente");
       this.carregarHospedes();
-      console.log("Carregou!");
     });
   }
 }
