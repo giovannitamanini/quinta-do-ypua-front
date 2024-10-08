@@ -11,6 +11,7 @@ import { ReservasComponent } from './reservas/reservas.component';
 import { HospedesComponent } from './hospedes/hospedes.component';
 import { AcomodacoesComponent } from './acomodacoes/acomodacoes.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 @NgModule({
   declarations: [
@@ -26,7 +27,8 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

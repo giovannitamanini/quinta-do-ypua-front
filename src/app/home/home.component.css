@@ -8,3 +8,7 @@
 .home-btn {
   margin-top: 2%;
 }
+
+.fc-toolbar-title {
+  text-transform: capitalize;
+}
