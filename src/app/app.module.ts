@@ -12,6 +12,12 @@ import { HospedesComponent } from './hospedes/hospedes.component';
 import { AcomodacoesComponent } from './acomodacoes/acomodacoes.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FullCalendarModule } from '@fullcalendar/angular';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReservasDialogComponent } from './reservas-dialog/reservas-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button'; // Se você estiver usando botões
+
 
 @NgModule({
   declarations: [
@@ -21,6 +27,8 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     ReservasComponent,
     HospedesComponent,
     AcomodacoesComponent,
+    DashboardComponent,
+    ReservasDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -28,7 +36,10 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     HttpClientModule,
     FormsModule,
     NgbModule,
-    FullCalendarModule
+    FullCalendarModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

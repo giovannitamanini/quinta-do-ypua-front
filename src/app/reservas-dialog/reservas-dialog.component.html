@@ -1,0 +1,11 @@
+<h2 mat-dialog-title>Detalhes da Reserva</h2>
+<mat-dialog-content>
+  <p>Hóspede: {{data.hospedeNome}}</p>
+  <p>Acomodação: {{data.acomodacaoNome}}</p>
+  <p>Status: {{data.status}}</p>
+  <p>Check-In: {{data.dataCheckIn}}</p>
+  <p>Check-Out: {{data.dataCheckOut}}</p>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Fechar</button>
+</mat-dialog-actions>
