@@ -52,7 +52,7 @@ export class AcomodacoesComponent implements OnInit {
 
   editarAcomodacao(acomodacao: any) {
     this.acomodacaoEditada = { ...acomodacao }; 
-  
+
     this.comodidades.forEach((comodidade) => {
       comodidade.selected = this.acomodacaoEditada.comodidades.some((c: any) => c.id === comodidade.id);
     });
@@ -73,6 +73,7 @@ export class AcomodacoesComponent implements OnInit {
   excluirAcomodacao(id:any) {
     this.acomodacoesService.excluirAcomodacao(id).subscribe(() => {
       this.carregarAcomodacoes();
+      this.carregarComodidades()
     });
   }
 
