@@ -16,8 +16,13 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReservasDialogComponent } from './reservas-dialog/reservas-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatButtonModule } from '@angular/material/button'; // Se você estiver usando botões
+import { MatButtonModule } from '@angular/material/button';
+import { NgxMaskModule } from 'ngx-mask';
+import { ComodidadesComponent } from './comodidades/comodidades.component';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
 
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -29,6 +34,7 @@ import { MatButtonModule } from '@angular/material/button'; // Se você estiver 
     AcomodacoesComponent,
     DashboardComponent,
     ReservasDialogComponent,
+    ComodidadesComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,8 @@ import { MatButtonModule } from '@angular/material/button'; // Se você estiver 
     FullCalendarModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

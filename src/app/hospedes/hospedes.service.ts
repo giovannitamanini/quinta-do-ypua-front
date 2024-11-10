@@ -6,12 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class HospedesService {
-  private apiUrl = 'http://localhost:8080/hospedes';
+  private apiUrl = 'http://localhost:8080/hospede';
 
   constructor(private httpClient: HttpClient) { }
 
   public getHospedes(): Observable<any> {
-    return this.httpClient.get(this.apiUrl + "/");
+    return this.httpClient.get(this.apiUrl);
   }
 
   criarHospede(hospede:any): Observable<any> {

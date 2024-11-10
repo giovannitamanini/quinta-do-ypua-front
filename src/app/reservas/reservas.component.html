@@ -63,7 +63,7 @@
             </div>
             <div class="mb-3">
               <label class="form-label" for="valorTotal">Valor total</label>
-              <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Valor total" required  [(ngModel)]="novaReserva.valorTotal"/>
+              <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Valor total" required [(ngModel)]="novaReserva.valorTotal"/>
           </div>
 
             <div class="modal-footer">
@@ -135,7 +135,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label" for="valorTotal">Valor Total</label>
-                <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarais"/>
+                <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarias"/>
             </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limparObjetoEdicao()">Cancelar</button>
@@ -184,7 +184,7 @@
               {{ reserva.statusReserva }}
             </span> 
           </td>
-          <td>{{ reserva.valorTotal }}</td>
+          <td>{{ reserva.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
           <td>
             <span class="badge bg-{{ 
               reserva.statusPagamento === 'PENDENTE' ? 'warning' : 

@@ -19,11 +19,16 @@ export class HomeComponent implements OnInit {
   acomodacoes: any[] = [];
   hospedes: any[] = [];
   reservas: any[] = [];
+  filteredReservas: any[] = [];
+  selectedAcomodacao: string = 'Todas';
+  listAcomodacoes: string[] = ['Todas'];
+  selectedStatus: string = 'Todos';
+  listStatus: string[] = ['Todos'];
 
   constructor(private reservasService: ReservasService,
               private acomodacoesService: AcomodacoesService,
               private hospedesService: HospedesService,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.carregarCadastros();
@@ -33,37 +38,30 @@ export class HomeComponent implements OnInit {
   carregarCadastros(){
     this.acomodacoesService.getAcomodacoes().subscribe(acomodacoes => {
       this.acomodacoes = acomodacoes;
+      this.listAcomodacoes = ['Todas', ...acomodacoes.map((a: { nome: any; }) => a.nome)];
     });
 
     this.hospedesService.getHospedes().subscribe(hospedes => {
       this.hospedes = hospedes;
-    }) ;
+    });
   }
 
   carregarReservas() {
     this.reservasService.getReservas().subscribe(reservas => {
-      console.log('Reservas retornadas:', reservas); // Para depurar
-  
       this.reservas = reservas;
+      this.listStatus = ['Todos', ...Array.from(new Set(reservas.map((r: { statusReserva: string; }) => this.formatStatus(r.statusReserva)) as unknown as string[]))];
   
-      // Preenchendo os eventos do calendário com as reservas
       this.calendarOptions.events = reservas.map((reserva: any) => {
         const hospede = this.hospedes.find(h => h.id === reserva.idHospede);
         const acomodacao = this.acomodacoes.find(a => a.id === reserva.idAcomodacao);
-
-        console.log('Hóspede encontrado:', hospede);
-        console.log('Acomodação encontrada:', acomodacao);
-
         const dataCheckIn = new Date(reserva.dataCheckIn[0], reserva.dataCheckIn[1] - 1, reserva.dataCheckIn[2]);
         const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
   
         return {
           title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
           start: dataCheckIn,
-          end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0], // Adiciona 1 dia à data de check-out
+          end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
           allDay: true,
-          classNames: ['reserva-evento'],
-          //editable: true,
           extendedProps: {
             hospedeNome: hospede ? hospede.nome : 'Desconhecido',
             acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',    
@@ -71,27 +69,72 @@ export class HomeComponent implements OnInit {
             dataCheckOut: dataCheckOut.toLocaleDateString(),    
             idHospede: reserva.idHospede,
             idAcomodacao: reserva.idAcomodacao,
-            status: reserva.statusReserva,
+            status: this.formatStatus(reserva.statusReserva)
           },
           backgroundColor: this.getColorForReserva(reserva),
-          borderColor: this.getColorForReserva(reserva),
+          borderColor: this.getColorForReserva(reserva)
         };
       });
+
+      this.filtrarReservas();
     }, error => {
-      console.error('Erro ao carregar reservas:', error); // Para depurar erros
+      console.error('Erro ao carregar reservas:', error);
     });
   }
 
+  formatStatus(status: string): string {
+    return status
+      .split('_')
+      .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+      .join(' ');
+  }
+
   getColorForReserva(reserva: any): string {
-    console.log('Status da Reserva:', reserva.statusReserva);
-    switch (reserva.statusReserva) {
-      case 'PENDENTE':
-        return '#AAAAAA'; // Laranja
-      case 'PAGO':
-        return '#33FF57'; // Verde
+    console.log(this.formatStatus(reserva.statusReserva))
+    switch (this.formatStatus(reserva.statusReserva)) {
+      case 'Pendente':
+        return '#FFC107';
+      case 'Em Andamento':
+        return '#007BFF';
+      case 'Finalizada':
+        return '#28A745';
       default:
-        return '#FFFFFF'; // Cinza padrão
+        return '#FF0007';
     }
+  }
+
+  filtrarReservas() {
+    this.filteredReservas = this.reservas.filter(reserva => {
+      const statusMatch = this.selectedStatus === 'Todos' || this.formatStatus(reserva.statusReserva) === this.selectedStatus;
+      const acomodacaoMatch = this.selectedAcomodacao === 'Todas' || this.acomodacoes.find(a => a.nome === this.selectedAcomodacao)?.id === reserva.idAcomodacao;
+      return statusMatch && acomodacaoMatch;
+    });
+
+    this.calendarOptions.events = this.filteredReservas.map((reserva: any) => {
+      const hospede = this.hospedes.find(h => h.id === reserva.idHospede);
+      const acomodacao = this.acomodacoes.find(a => a.id === reserva.idAcomodacao);
+
+      const dataCheckIn = new Date(reserva.dataCheckIn[0], reserva.dataCheckIn[1] - 1, reserva.dataCheckIn[2]);
+      const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
+
+      return {
+        title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
+        start: dataCheckIn,
+        end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
+        allDay: true,
+        extendedProps: {
+          hospedeNome: hospede ? hospede.nome : 'Desconhecido',
+          acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',
+          dataCheckIn: dataCheckIn.toLocaleDateString(),
+          dataCheckOut: dataCheckOut.toLocaleDateString(),
+          idHospede: reserva.idHospede,
+          idAcomodacao: reserva.idAcomodacao,
+          status: this.formatStatus(reserva.statusReserva)
+        },
+        backgroundColor: this.getColorForReserva(reserva),
+        borderColor: this.getColorForReserva(reserva)
+      };
+    });
   }
 
   calendarOptions: CalendarOptions = {

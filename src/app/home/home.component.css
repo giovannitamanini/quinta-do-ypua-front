@@ -1,5 +1,5 @@
 .body {
-  width: 1080px;
+  width: 90%;
   margin: auto;
   padding-left: 1%;
   padding-right: 1%;
@@ -9,6 +9,41 @@
   margin-top: 2%;
 }
 
-.fc-toolbar-title {
-  text-transform: capitalize;
+#statusFilter {
+  margin-left: 5px;
+}
+
+#acomodacaoFilter {
+  margin-left: 5px;
+}
+
+.filter-section {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filter-section label {
+  font-size: 1.1em;
+  margin-right: 10px;
+}
+
+.filter-section select {
+  padding: 8px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  background-color: #f8f9fa;
+  color: #333;
+  transition: border-color 0.3s;
+}
+
+.filter-section select:hover {
+  border-color: #007bff;
+}
+
+.filter-section select:focus {
+  border-color: #007bff;
+  outline: none;
+  box-shadow: 0 0 3px rgba(0, 123, 255, 0.25);
 }

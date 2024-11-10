@@ -6,21 +6,21 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class AcomodacoesService {
-  private apiUrl = 'http://localhost:8080/acomodacoes';
+  private apiUrl = 'http://localhost:8080/acomodacao';
 
   constructor(private httpClient: HttpClient) { }
 
   public getAcomodacoes(): Observable<any> {
-    return this.httpClient.get(this.apiUrl + "/");
+    return this.httpClient.get(this.apiUrl);
   }
 
-  criarAcomodacao(hospede:any): Observable<any> {
-    return this.httpClient.post(this.apiUrl, hospede);
+  criarAcomodacao(acomodacao:any): Observable<any> {
+    return this.httpClient.post(this.apiUrl, acomodacao);
   }
 
-  atualizarAcomodacao(hospede:any): Observable<any> {
-    const url = `${this.apiUrl}/${hospede.id}`;
-    return this.httpClient.put(url, hospede);
+  atualizarAcomodacao(acomodacao:any): Observable<any> {
+    const url = `${this.apiUrl}/${acomodacao.id}`;
+    return this.httpClient.put(url, acomodacao);
   }
 
   excluirAcomodacao(id:any): Observable<any> {

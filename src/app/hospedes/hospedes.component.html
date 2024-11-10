@@ -26,15 +26,51 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="cpf">CPF</label>
-                <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" required  [(ngModel)]="novoHospede.cpf"/>
+                <input class="form-control" id="cpf" name="cpf" type="text" mask="000.000.000-00" placeholder="CPF" required [(ngModel)]="novoHospede.cpf"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="dataNascimento">Data de nascimento</label>
+              <input class="form-control" id="dataNascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" required [(ngModel)]="novoHospede.dataNascimento"/>
             </div>
             <div class="mb-3">
               <label class="form-label" for="email">E-mail</label>
               <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" required [(ngModel)]="novoHospede.email"/>
             </div>
             <div class="mb-3">
+              <label class="form-label" for="telefone">Telefone</label>
+              <input class="form-control" id="telefone" name="telefone" type="telefone" placeholder="Telefone" mask="(00)00000-0000" required [(ngModel)]="novoHospede.telefone"/>
+            </div>
+            <div class="mb-3">
               <label class="form-label" for="cep">CEP</label>
-              <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" required [(ngModel)]="novoHospede.cep"/>
+              <input class="form-control" id="cep" name="cep" type="text" mask="00000-000" placeholder="CEP" required [(ngModel)]="novoHospede.cep"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="logradouro">Logradouro</label>
+              <input class="form-control" id="logradouro" name="logradouro" type="text" placeholder="Logradouro" required [(ngModel)]="novoHospede.logradouro"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="numero">Número</label>
+              <input class="form-control" id="numero" name="numero" type="text" placeholder="Número" required [(ngModel)]="novoHospede.numero"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="complemento">Complemento</label>
+              <input class="form-control" id="complemento" name="complemento" type="text" placeholder="Complemento" required [(ngModel)]="novoHospede.complemento"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="bairro">Bairro</label>
+              <input class="form-control" id="bairro" name="bairro" type="text" placeholder="Bairro" required [(ngModel)]="novoHospede.bairro"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="cidade">Cidade</label>
+              <input class="form-control" id="cidade" name="cidade" type="text" placeholder="Cidade" required [(ngModel)]="novoHospede.cidade"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="estado">Estado</label>
+              <input class="form-control" id="estado" name="estado" type="text" placeholder="Estado" required [(ngModel)]="novoHospede.estado"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="pais">País</label>
+              <input class="form-control" id="pais" name="pais" type="text" placeholder="País" required [(ngModel)]="novoHospede.pais"/>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -68,15 +104,55 @@
               </div>
               <div class="mb-3">
                   <label class="form-label" for="cpf">CPF</label>
-                  <input class="form-control" id="cpf" name="cpf" type="text" placeholder="CPF" required [(ngModel)]="hospedeEditado.cpf"/>
+                  <input class="form-control" id="cpf" name="cpf" type="text" mask="000.000.000-00" placeholder="CPF" required [(ngModel)]="hospedeEditado.cpf"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="dataNascimento">Data de nascimento</label>
+                <input class="form-control" id="dataNascimento" name="dataNascimento" type="date" placeholder="Data de Nascimento" required [(ngModel)]="hospedeEditado.dataNascimento"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="email">E-mail</label>
                 <input class="form-control" id="email" name="email" type="email" placeholder="E-mail" required [(ngModel)]="hospedeEditado.email"/>
               </div>
               <div class="mb-3">
+                <label class="form-label" for="telefone">Telefone</label>
+                <input class="form-control" id="telefone" name="telefone" type="telefone" placeholder="Telefone" mask="(00)00000-0000" required [(ngModel)]="hospedeEditado.telefone"/>
+              </div>
+              <div class="mb-3">
                 <label class="form-label" for="cep">CEP</label>
-                <input class="form-control" id="cep" name="cep" type="text" placeholder="CEP" required [(ngModel)]="hospedeEditado.cep"/>
+                <input class="form-control" id="cep" name="cep" type="text" mask="00000-000" placeholder="CEP" required [(ngModel)]="hospedeEditado.cep"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="logradouro">Logradouro</label>
+                <input class="form-control" id="logradouro" name="logradouro" type="text" placeholder="Logradouro" required [(ngModel)]="hospedeEditado.logradouro"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="numero">Número</label>
+                <input class="form-control" id="numero" name="numero" type="text" placeholder="Número" required [(ngModel)]="hospedeEditado.numero"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="complemento">Complemento</label>
+                <input class="form-control" id="complemento" name="complemento" type="text" placeholder="Complemento" required [(ngModel)]="hospedeEditado.complemento"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="bairro">Bairro</label>
+                <input class="form-control" id="bairro" name="bairro" type="text" placeholder="Bairro" required [(ngModel)]="hospedeEditado.bairro"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="cidade">Cidade</label>
+                <input class="form-control" id="cidade" name="cidade" type="text" placeholder="Cidade" required [(ngModel)]="hospedeEditado.cidade"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="estado">Estado</label>
+                <input class="form-control" id="estado" name="estado" type="text" placeholder="Estado" required [(ngModel)]="hospedeEditado.estado"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="pais">País</label>
+                <input class="form-control" id="pais" name="pais" type="text" placeholder="País" required [(ngModel)]="hospedeEditado.pais"/>
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#hospedeCadastroModal" [disabled]="!form.valid">Salvar</button>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -97,7 +173,7 @@
           <th scope="col">Sobrenome</th>
           <th scope="col">CPF</th>
           <th scope="col">E-mail</th>
-          <th scope="col">CEP</th>
+          <th scope="col">Telefone</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -106,9 +182,9 @@
           <td>{{ hospede.id }}</td>
           <td>{{ hospede.nome }}</td>
           <td>{{ hospede.sobrenome }}</td>
-          <td>{{ hospede.cpf }}</td>
+          <td>{{ formatarCpf(hospede.cpf) }}</td>
           <td>{{ hospede.email }}</td>
-          <td>{{ hospede.cep }}</td>
+          <td>{{ formatarTelefone(hospede.telefone) }}</td>
           <td style="text-align: right;">
             <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#hospedeEdicaoModal" (click)="hospedeEditado = hospede">
               <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
