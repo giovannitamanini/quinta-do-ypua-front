@@ -13,6 +13,10 @@ export class ComodidadesComponent implements OnInit {
   editando = false;
   comodidadeEditada: any = {};
 
+  filteredComodidades: any[] = [];
+  selectedTipo: string = 'Todos';
+  listTipos: string[] = ['Todos'];
+
   constructor(private comodidadeService: ComodidadesService) { }
 
   ngOnInit() {
@@ -45,21 +49,39 @@ export class ComodidadesComponent implements OnInit {
     this.comodidadeService.excluirComodidade(id).subscribe(() => {
       this.carregarComodidades();
     });
-
-    /*this.comodidadeService.getAcomodacoes().subscribe((acomodacoes) => {
-      // Verificar se a comodidade está associada a alguma acomodação
-      const comodidadeEmUso = acomodacoes.some(acomodacao =>
-        acomodacao.comodidades.some(comodidade => comodidade.id === id)
-      );
-
-      if (comodidadeEmUso) {
-        this.erroMensagem = 'Essa comodidade não pode ser excluída, pois está sendo utilizada por uma acomodação.';
-      } else {
-        // Caso não esteja em uso, podemos excluir a comodidade
-        this.comodidadeService.excluirComodidade(id).subscribe(() => {
-          this.carregarComodidades(); // Recarregar a lista de comodidades
-          this.erroMensagem = ''; // Limpar mensagem de erro
-        });
-      }*/
   }
+
+  /*filtrarComodidades() {
+    this.filteredComodidades = this.comodidades.filter(comodidade => {
+      const statusMatch = this.selectedTipo === 'Todos' || this.formatStatus(reserva.statusReserva) === this.selectedStatus;
+      const acomodacaoMatch = this.selectedAcomodacao === 'Todas' || this.acomodacoes.find(a => a.nome === this.selectedAcomodacao)?.id === reserva.idAcomodacao;
+      return statusMatch && acomodacaoMatch;
+    });
+
+    this.calendarOptions.events = this.filteredReservas.map((reserva: any) => {
+      const hospede = this.hospedes.find(h => h.id === reserva.idHospede);
+      const acomodacao = this.acomodacoes.find(a => a.id === reserva.idAcomodacao);
+
+      const dataCheckIn = new Date(reserva.dataCheckIn[0], reserva.dataCheckIn[1] - 1, reserva.dataCheckIn[2]);
+      const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
+
+      return {
+        title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
+        start: dataCheckIn,
+        end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
+        allDay: true,
+        extendedProps: {
+          hospedeNome: hospede ? hospede.nome : 'Desconhecido',
+          acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',
+          dataCheckIn: dataCheckIn.toLocaleDateString(),
+          dataCheckOut: dataCheckOut.toLocaleDateString(),
+          idHospede: reserva.idHospede,
+          idAcomodacao: reserva.idAcomodacao,
+          status: this.formatStatus(reserva.statusReserva)
+        },
+        backgroundColor: this.getColorForReserva(reserva),
+        borderColor: this.getColorForReserva(reserva)
+      };
+    });
+  }*/
 }

@@ -36,8 +36,8 @@
             <!-- Comodidades -->
             <div class="mb-3">
               <label class="form-label" for="comodidades">Comodidades</label>
-              <div *ngFor="let comodidade of comodidades">
-                <div class="form-check">
+              <div class="comodidades-container">
+                <div *ngFor="let comodidade of comodidades" class="form-check">
                   <input class="form-check-input" 
                          type="checkbox" 
                          [id]="comodidade.id" 

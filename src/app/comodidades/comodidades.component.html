@@ -3,6 +3,21 @@
     <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">
       + Comodidade
     </button>
+
+    <div class="filter-section">
+      <!--<div style="margin-top: 2%;">
+        <label for="statusFilter">Descrição:</label>
+        <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filtrarReservas()">
+          <option *ngFor="let descricao of listStatus" [value]="status">{{status}}</option>
+        </select>
+      </div>
+      <div style="margin-top: 1%;">
+        <label for="tipoFilter">Tipo:</label>
+        <select id="tipoFilter" [(ngModel)]="selectedTipo" (change)="filtrarComodidades()">
+          <option *ngFor="let tipo of listTipos" [value]="tipos">{{tipo}}</option>
+        </select>
+      </div>
+    </div>-->
   
     <!-- Modal Cadastro  -->
     <div class="modal fade" id="comodidadeCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -15,14 +30,14 @@
             </button>
           </div>
           <div class="modal-body">
-            <form (ngSubmit)="criarComodidade()">
+            <form #form="ngForm" (ngSubmit)="criarComodidade()">
               <div class="mb-3">
                 <label class="form-label" for="descricao">Descrição</label>
                 <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição" required [(ngModel)]="novaComodidade.descricao"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="tipo">Tipo</label>
-                <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo">
+                <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
                     <option value="MOBÍLIA" selected>Mobília</option>
                     <option value="ELETRODOMÉSTICOS">Eletrodomésticos</option>
                     <option value="UTENSÍLIOS">Utensílios</option>
@@ -31,7 +46,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">Salvar</button>
+                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal" [disabled]="!form.valid">Salvar</button>
               </div>
             </form>
           </div>
@@ -57,7 +72,7 @@
                 </div>
                 <div class="mb-3">
                     <label class="form-label" for="tipo">Tipo</label>
-                    <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo">
+                    <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
                         <option value="MOBÍLIA" selected>Mobília</option>
                         <option value="ELETRODOMÉSTICOS">Eletrodomésticos</option>
                         <option value="UTENSÍLIOS">Utensílios</option>
