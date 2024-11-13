@@ -41,8 +41,6 @@ export class AcomodacoesComponent implements OnInit {
     const comodidadesSelecionadas = this.comodidades.filter((comodidade) => comodidade.selected);
     this.novaAcomodacao.comodidades = comodidadesSelecionadas;
 
-    console.log(this.novaAcomodacao)
-
     this.acomodacoesService.criarAcomodacao(this.novaAcomodacao).subscribe(() => {
       this.carregarAcomodacoes();
       this.carregarComodidades()
