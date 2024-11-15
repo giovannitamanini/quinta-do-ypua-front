@@ -8,17 +8,18 @@ import { ReservasComponent } from './reservas/reservas.component';
 import { HomeComponent } from './home/home.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ComodidadesComponent } from './comodidades/comodidades.component';
+import { NotFoundError } from 'rxjs';
 
 const routes: Routes = [
-  { path: "register", component: RegisterComponent },
-  { path: "login", component: LoginComponent },
-  {path: '', component: HomeComponent},
+  {path: "register", component: RegisterComponent},
+  {path: "login", component: LoginComponent},
+  {path: '', component: RegisterComponent},
   {path: 'home', component: HomeComponent},
-  {path: 'acomodacoes', component: AcomodacoesComponent},
-  {path: 'hospedes', component: HospedesComponent},
-  {path: 'reservas', component: ReservasComponent},
+  {path: 'acomodacao', component: AcomodacoesComponent},
+  {path: 'hospede', component: HospedesComponent},
+  {path: 'reserva', component: ReservasComponent},
   {path: 'dashboard', component: DashboardComponent},
-  {path: 'comodidades', component: ComodidadesComponent},
+  {path: 'comodidade', component: ComodidadesComponent},
 ];
 
 @NgModule({

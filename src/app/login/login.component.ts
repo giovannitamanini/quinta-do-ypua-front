@@ -29,20 +29,20 @@ export class LoginComponent implements OnInit {
       this.service.login(this.loginForm.value).subscribe(
         (response) => {
           if (response?.jwt) {
-            alert("Hello, Your token is " + response.jwt);
+            alert("Olá, o seu token de acesso é o: " + response.jwt);
             localStorage.setItem('jwt', response.jwt);
             this.router.navigateByUrl("/");
           } else {
-            alert("Login failed: Invalid credentials or no token received.");
+            alert("Falha no login. Credenciais inválidas ou token não recebido!");
           }
         },
         (error) => {
           console.error("Error during login:", error);
-          alert("An error occurred during login. Please try again.");
+          alert("Um erro ocorreu durante o login. Por favor tente novamente.");
         }
       );
     } else {
-      alert("Please fill in all required fields.");
+      alert("Por favor, preencha todos os campos.");
     }
   }
 }

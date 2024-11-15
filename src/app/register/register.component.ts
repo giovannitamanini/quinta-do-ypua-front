@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
+import { Router } from '@angular/router';
 import { JwtService } from 'src/app/service/jwt.service';
 
 @Component({
@@ -12,7 +13,8 @@ export class RegisterComponent implements OnInit {
 
   constructor(
     private service: JwtService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
   ngOnInit(): void {
@@ -44,15 +46,16 @@ export class RegisterComponent implements OnInit {
       this.service.register(this.registerForm.value).subscribe(
         (response) => {
           if (response.id != null) {
-            alert("Hello " + response.name);
+            alert("Olá " + response.name);
+            this.router.navigateByUrl("/login");
           }
         },
         (error) => {
-          console.error('Registration failed:', error);
+          console.error('Erro no cadastro:', error);
         }
       );
     } else {
-      console.error('Form is invalid');
+      console.error('Formulário está inválido');
     }
   }
 }
