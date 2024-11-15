@@ -8,3 +8,43 @@
 .listagem {
   margin-top: 2%;
 }
+
+.table th:nth-child(1), .table td:nth-child(1) { /* ID */
+  width: 3%;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) { /* Hóspede */
+  width: 20%;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* Acomodação */
+  width: 20%;
+}
+
+.table th:nth-child(4), .table td:nth-child(4) { /* Data Reserva */
+  width: 7%;
+}
+
+.table th:nth-child(5), .table td:nth-child(5) { /* Diárias */
+  width: 5%;
+}
+
+.table th:nth-child(6), .table td:nth-child(6) { /* CheckIn */
+  width: 7%;
+}
+
+.table th:nth-child(7), .table td:nth-child(7) { /* CheckOut */
+  width: 7%;
+}
+
+.table th:nth-child(8), .table td:nth-child(8) { /* Status Reserva */
+  width: 10%;
+}
+
+.table th:nth-child(9), .table td:nth-child(9) { /* Valor */
+  width: 7%;
+}
+
+.table th:nth-child(10), .table td:nth-child(10) { /* Status Pagamento */
+  width: 7%;
+}

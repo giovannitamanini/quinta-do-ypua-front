@@ -127,7 +127,7 @@
               </div>
               <div class="mb-3">
                   <label class="form-label" for="dataCheckIn">Data Check-In</label>
-                  <input class="form-control" id="dataCheckIn" name="cargo" type="date" placeholder="Data Check-in" required  [(ngModel)]="reservaEditada.dataCheckIn"/>
+                  <input class="form-control" id="dataCheckIn" name="dataCheckIn" type="date" placeholder="Data Check-in" required  [(ngModel)]="reservaEditada.dataCheckIn"/>
               </div>
               <div class="mb-3">
                 <label class="form-label" for="dataCheckOut">Data Check-Out</label>
@@ -160,7 +160,7 @@
           <th scope="col">Check-Out</th>
           <th scope="col">Status Reserva</th>
           <th scope="col">Valor</th>
-          <th scope="col">Status Pagamento</th>
+          <th scope="col">Pagamento</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -207,5 +207,34 @@
       </tbody>
     </table>
   </div>
+
+  <nav class="pagination-controls">
+    <div class="items-per-page">
+      <label for="page-size">Itens por página:</label>
+      <select id="page-size" [(ngModel)]="size" (change)="mudarTamanhoPagina(size)">
+        <option *ngFor="let opcao of pageSizeOptions" [value]="opcao">{{ opcao }}</option>
+      </select>
+    </div>
+
+    <div class="pagination-right">
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage - 1)" 
+        [disabled]="currentPage === 0">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+    
+      <span class="pagination-info">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+    
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage + 1)" 
+        [disabled]="currentPage >= totalPages - 1">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 
 </div>

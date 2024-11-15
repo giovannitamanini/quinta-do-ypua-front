@@ -21,6 +21,7 @@ import { NgxMaskModule } from 'ngx-mask';
 import { ComodidadesComponent } from './comodidades/comodidades.component';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 registerLocaleData(localePt);
 
@@ -47,6 +48,7 @@ registerLocaleData(localePt);
     MatDialogModule,
     MatButtonModule,
     NgxMaskModule.forRoot(),
+    MatSnackBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

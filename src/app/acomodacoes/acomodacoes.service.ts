@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,11 @@ export class AcomodacoesService {
 
   public getAcomodacoes(): Observable<any> {
     return this.httpClient.get(this.apiUrl);
+  }
+
+  public getAcomodacoesPaginadas(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
   criarAcomodacao(acomodacao:any): Observable<any> {

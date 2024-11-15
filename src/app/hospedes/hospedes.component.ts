@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { HospedesService } from './hospedes.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-hospedes',
@@ -13,10 +14,16 @@ export class HospedesComponent implements OnInit {
   editando = false;
   hospedeEditado: any = {};
 
-  constructor(private hospedeService: HospedesService) { }
+  totalPages: number = 0;
+  currentPage: number = 0;
+  size: number = 20;
+  pageSizeOptions: number[] = [20, 50, 100];
+
+  constructor(private hospedeService: HospedesService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.carregarHospedes();
+    this.carregarHospedesPaginados();
   }
 
   carregarHospedes() {
@@ -25,26 +32,55 @@ export class HospedesComponent implements OnInit {
     });
   }
 
+  carregarHospedesPaginados(page: number = 0) {
+    this.hospedeService.getHospedesPaginados(page, this.size).subscribe(response => {
+      this.hospedes = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
+  mudarPagina(novaPagina: number): void {
+    if (novaPagina >= 0 && novaPagina < this.totalPages) {
+      this.currentPage = novaPagina;
+      this.carregarHospedesPaginados(this.currentPage);
+    }
+  }
+
+  mudarTamanhoPagina(tamanho: number): void {
+    this.size = tamanho;
+    this.currentPage = 0;
+    this.carregarHospedesPaginados(this.currentPage);
+  }
+
   criarHospede() {
     console.log(this.novoHospede)
     this.hospedeService.criarHospede(this.novoHospede).subscribe(() => {
-      this.carregarHospedes();
+      this.carregarHospedesPaginados();
       this.novoHospede = {};
     });
   }
 
   atualizarHospede() {
     this.hospedeService.atualizarHospede(this.hospedeEditado).subscribe(() => {
-      this.carregarHospedes();
+      this.carregarHospedesPaginados();
       this.editando = false;
       this.hospedeEditado = {};
     });
   }
 
   excluirHospede(id:any) {
-    this.hospedeService.excluirHospede(id).subscribe(() => {
-      this.carregarHospedes();
-    });
+    this.hospedeService.excluirHospede(id).subscribe(
+      () => {
+        this.carregarHospedesPaginados();
+      },
+      (error) => {
+        this.snackBar.open(error.error || "Erro ao excluir o hóspede.", "Fechar", {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
+      }
+    );
   }
 
   formatarTelefone(telefone: string): string {

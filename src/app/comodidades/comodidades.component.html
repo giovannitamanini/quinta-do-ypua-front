@@ -1,10 +1,23 @@
 <div class="body">
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">
-      + Comodidade
-    </button>
-
+    
     <div class="filter-section">
+      <div>
+        <label for="descricao">Descrição:</label>
+        <input id="descricao" [(ngModel)]="descricaoFiltro" placeholder="Filtrar por descrição">
+      </div>
+    
+      <div>
+        <label for="tipo">Tipo:</label>
+        <select id="tipo" [(ngModel)]="selectedTipo">
+          <option *ngFor="let tipo of listTipos" [value]="tipo">{{tipo}}</option>
+        </select>
+      </div>
+    
+      <div class="filter-buttons">
+        <button (click)="filtrarComodidades()">Filtrar</button>
+        <button (click)="limparFiltros()">Limpar Filtro</button>
+      </div>
+    </div>
       <!--<div style="margin-top: 2%;">
         <label for="statusFilter">Descrição:</label>
         <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filtrarReservas()">
@@ -18,6 +31,12 @@
         </select>
       </div>
     </div>-->
+
+    <!-- Button trigger modal -->
+    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">
+      + Comodidade
+    </button>
+
   
     <!-- Modal Cadastro  -->
     <div class="modal fade" id="comodidadeCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -38,9 +57,9 @@
               <div class="mb-3">
                 <label class="form-label" for="tipo">Tipo</label>
                 <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
-                    <option value="MOBÍLIA" selected>Mobília</option>
-                    <option value="ELETRODOMÉSTICOS">Eletrodomésticos</option>
-                    <option value="UTENSÍLIOS">Utensílios</option>
+                    <option value="MOBILIA" selected>Mobília</option>
+                    <option value="ELETRODOMESTICOS">Eletrodomésticos</option>
+                    <option value="UTENSILIOS">Utensílios</option>
                     <option value="OUTROS">Outros</option>
                 </select>
               </div>
@@ -114,5 +133,34 @@
         </tbody>
       </table>
     </div>
+
+    <nav class="pagination-controls">
+      <div class="items-per-page">
+        <label for="page-size">Itens por página:</label>
+        <select id="page-size" [(ngModel)]="size" (change)="mudarTamanhoPagina(size)">
+          <option *ngFor="let opcao of pageSizeOptions" [value]="opcao">{{ opcao }}</option>
+        </select>
+      </div>
+  
+      <div class="pagination-right">
+        <button 
+          class="pagination-button" 
+          (click)="mudarPagina(currentPage - 1)" 
+          [disabled]="currentPage === 0">
+          <i class="fa fa-chevron-left"></i>
+        </button>
+      
+        <span class="pagination-info">
+          Página {{ currentPage + 1 }} de {{ totalPages }}
+        </span>
+      
+        <button 
+          class="pagination-button" 
+          (click)="mudarPagina(currentPage + 1)" 
+          [disabled]="currentPage >= totalPages - 1">
+          <i class="fa fa-chevron-right"></i>
+        </button>
+      </div>
+    </nav>
 </div>
   

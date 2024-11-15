@@ -10,9 +10,25 @@
 }
 
 .comodidades-container {
-  max-height: 200px; /* Ajuste o valor conforme necessário */
-  overflow-y: auto;  /* Aplica a barra de rolagem quando necessário */
+  max-height: 200px;
+  overflow-y: auto;
   display: grid;
-  grid-template-columns: repeat(3, 1fr);  /* 3 colunas de largura igual */
+  grid-template-columns: repeat(3, 1fr);
   gap: 10px;
+}
+
+.table th:nth-child(1), .table td:nth-child(1) { /* ID */
+  width: 5%;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) { /* Nome */
+  width: 65%;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* Valor Diária */
+  width: 15%;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* Hóspedes */
+  width: 15%;
 }

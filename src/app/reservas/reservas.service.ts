@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
@@ -12,6 +12,11 @@ export class ReservasService {
 
   public getReservas(): Observable<any> {
     return this.httpClient.get(this.apiUrl);
+  }
+
+  public getReservasPaginadas(page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams().set('page', page).set('size', size);
+    return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
   criarReserva(reserva:any): Observable<any> {

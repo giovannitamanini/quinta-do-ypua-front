@@ -8,3 +8,15 @@
 .listagem {
   margin-top: 2%;
 }
+
+.table th:nth-child(1), .table td:nth-child(1) { /* ID */
+  width: 5%;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) { /* Descrição */
+  width: 65%;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* Tipo */
+  width: 15%;
+}

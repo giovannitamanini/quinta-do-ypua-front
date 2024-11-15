@@ -1,6 +1,7 @@
 
 import { Component, OnInit } from '@angular/core';
 import { ComodidadesService } from './comodidades.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-comodidades',
@@ -13,14 +14,20 @@ export class ComodidadesComponent implements OnInit {
   editando = false;
   comodidadeEditada: any = {};
 
-  filteredComodidades: any[] = [];
+  descricaoFiltro: string = '';
   selectedTipo: string = 'Todos';
-  listTipos: string[] = ['Todos'];
+  listTipos: string[] = ['Todos', 'MOBILIA', 'ELETRODOMESTICOS', 'UTENSILIOS', 'OUTROS'];
 
-  constructor(private comodidadeService: ComodidadesService) { }
+  totalPages: number = 0;
+  currentPage: number = 0;
+  size: number = 20;
+  pageSizeOptions: number[] = [20, 1, 100];
+
+  constructor(private comodidadeService: ComodidadesService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.carregarComodidades();
+    this.carregarComodidadesPaginadas();
   }
 
   carregarComodidades() {
@@ -29,59 +36,75 @@ export class ComodidadesComponent implements OnInit {
     });
   }
 
+  carregarComodidadesPaginadas(page: number = 0) {
+    this.comodidadeService.getComodidadesPaginadas(page, this.size).subscribe(response => {
+      this.comodidades = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
+  carregarComodidadesComFiltros(page: number = 0, descricao: string = '', tipo: string = '') {
+    this.comodidadeService.getComodidadesComFiltros(descricao, tipo, page, this.size).subscribe(response => {
+      this.comodidades = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
   criarComodidade() {
     console.log(this.novaComodidade)
     this.comodidadeService.criarComodidade(this.novaComodidade).subscribe(() => {
-      this.carregarComodidades();
+      this.carregarComodidadesPaginadas();
       this.novaComodidade = {};
     });
   }
 
   atualizarComodidade() {
     this.comodidadeService.atualizarComodidade(this.comodidadeEditada).subscribe(() => {
-      this.carregarComodidades();
+      this.carregarComodidadesPaginadas();
       this.editando = false;
       this.comodidadeEditada = {};
     });
   }
 
   excluirComodidade(id:any) {
-    this.comodidadeService.excluirComodidade(id).subscribe(() => {
-      this.carregarComodidades();
-    });
+    this.comodidadeService.excluirComodidade(id).subscribe(
+      () => {
+        this.carregarComodidadesPaginadas();
+      },
+      (error) => {
+        this.snackBar.open(error.error || "Erro ao excluir a comodidade.", "Fechar", {
+          duration: 3000,
+          panelClass: ['error-snackbar'] 
+        });
+      }
+    );
   }
 
-  /*filtrarComodidades() {
-    this.filteredComodidades = this.comodidades.filter(comodidade => {
-      const statusMatch = this.selectedTipo === 'Todos' || this.formatStatus(reserva.statusReserva) === this.selectedStatus;
-      const acomodacaoMatch = this.selectedAcomodacao === 'Todas' || this.acomodacoes.find(a => a.nome === this.selectedAcomodacao)?.id === reserva.idAcomodacao;
-      return statusMatch && acomodacaoMatch;
-    });
+  mudarPagina(novaPagina: number): void {
+    if (novaPagina >= 0 && novaPagina < this.totalPages) {
+      this.currentPage = novaPagina;
+      this.carregarComodidadesPaginadas(this.currentPage);
+    }
+  }
 
-    this.calendarOptions.events = this.filteredReservas.map((reserva: any) => {
-      const hospede = this.hospedes.find(h => h.id === reserva.idHospede);
-      const acomodacao = this.acomodacoes.find(a => a.id === reserva.idAcomodacao);
+  mudarTamanhoPagina(tamanho: number): void {
+    this.size = tamanho;
+    this.currentPage = 0;
+    this.carregarComodidadesPaginadas(this.currentPage);
+  }
 
-      const dataCheckIn = new Date(reserva.dataCheckIn[0], reserva.dataCheckIn[1] - 1, reserva.dataCheckIn[2]);
-      const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
+  filtrarComodidades() {
+    this.currentPage = 0;
+    console.log('this.descricaoFiltro',this.descricaoFiltro)
+    console.log('this.selectedTipo',this.selectedTipo)
+    this.carregarComodidadesComFiltros(this.currentPage, this.descricaoFiltro, this.selectedTipo);
+  }
 
-      return {
-        title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
-        start: dataCheckIn,
-        end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
-        allDay: true,
-        extendedProps: {
-          hospedeNome: hospede ? hospede.nome : 'Desconhecido',
-          acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',
-          dataCheckIn: dataCheckIn.toLocaleDateString(),
-          dataCheckOut: dataCheckOut.toLocaleDateString(),
-          idHospede: reserva.idHospede,
-          idAcomodacao: reserva.idAcomodacao,
-          status: this.formatStatus(reserva.statusReserva)
-        },
-        backgroundColor: this.getColorForReserva(reserva),
-        borderColor: this.getColorForReserva(reserva)
-      };
-    });
-  }*/
+  limparFiltros() {
+    this.descricaoFiltro = '';
+    this.selectedTipo = 'Todos';
+    this.carregarComodidadesPaginadas();
+  }
 }

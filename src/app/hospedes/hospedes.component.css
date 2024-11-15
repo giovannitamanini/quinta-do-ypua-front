@@ -8,3 +8,28 @@
 .listagem {
   margin-top: 2%;
 }
+
+.table th:nth-child(1), .table td:nth-child(1) { /* ID */
+  width: 5%;
+}
+
+.table th:nth-child(2), .table td:nth-child(2) { /* Nome */
+  width: 25%;
+}
+
+.table th:nth-child(3), .table td:nth-child(3) { /* Sobrenome */
+  width: 25%;
+}
+
+.table th:nth-child(4), .table td:nth-child(4) { /* CPF */
+  width: 10%;
+}
+
+.table th:nth-child(5), .table td:nth-child(5) { /* E-mail */
+  width: 20%;
+}
+
+.table th:nth-child(6), .table td:nth-child(6) { /* Telefone */
+  width: 10%;
+}
+

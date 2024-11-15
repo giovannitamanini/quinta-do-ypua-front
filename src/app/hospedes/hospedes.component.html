@@ -197,5 +197,33 @@
     </table>
   </div>
 
+  <nav class="pagination-controls">
+    <div class="items-per-page">
+      <label for="page-size">Itens por página:</label>
+      <select id="page-size" [(ngModel)]="size" (change)="mudarTamanhoPagina(size)">
+        <option *ngFor="let opcao of pageSizeOptions" [value]="opcao">{{ opcao }}</option>
+      </select>
+    </div>
+
+    <div class="pagination-right">
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage - 1)" 
+        [disabled]="currentPage === 0">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+    
+      <span class="pagination-info">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+    
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage + 1)" 
+        [disabled]="currentPage >= totalPages - 1">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 
 </div>

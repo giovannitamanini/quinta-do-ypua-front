@@ -22,13 +22,18 @@ export class ReservasComponent implements OnInit {
   });
   mensagemErro: string | null = null;
 
+  totalPages: number = 0;
+  currentPage: number = 0;
+  size: number = 20;
+  pageSizeOptions: number[] = [20, 50, 100];
+
   constructor(private reservasService: ReservasService,
               private acomodacoesService: AcomodacoesService,
               private hospedesService: HospedesService) { }
 
   ngOnInit() {
     this.carregarCadastros();
-    this.carregarReservas();
+    this.carregarReservasPaginadas();
   }
 
   carregarCadastros(){
@@ -46,10 +51,31 @@ export class ReservasComponent implements OnInit {
       this.reservas = reservas;
     });
   }
+  
+  carregarReservasPaginadas(page: number = 0) {
+    this.reservasService.getReservasPaginadas(page, this.size).subscribe(response => {
+      this.reservas = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
+  mudarPagina(novaPagina: number): void {
+    if (novaPagina >= 0 && novaPagina < this.totalPages) {
+      this.currentPage = novaPagina;
+      this.carregarReservasPaginadas(this.currentPage);
+    }
+  }
+
+  mudarTamanhoPagina(tamanho: number): void {
+    this.size = tamanho;
+    this.currentPage = 0;
+    this.carregarReservasPaginadas(this.currentPage);
+  }
 
   criarReserva() {
     this.reservasService.criarReserva(this.novaReserva).subscribe(() => {
-      this.carregarReservas();
+      this.carregarReservasPaginadas();
       this.novaReserva = {};
     });
   }
@@ -74,22 +100,22 @@ export class ReservasComponent implements OnInit {
 
   atualizarReserva() {
     this.reservasService.atualizarReserva(this.reservaEditada).subscribe(() => {
-      this.carregarReservas();
+      this.carregarReservasPaginadas();
       this.editando = false;
       this.reservaEditada = {};
     });
   }
 
-  excluirReserva(id:any) {
+  excluirReserva(id:any) { 
     this.reservasService.excluirReserva(id).subscribe(() => {
       error: (err: { status: number; error: string | null; }) => {
         if (err.status === 409) {
-          this.mensagemErro = err.error; // Mostra a mensagem de erro retornada pelo backend
+          this.mensagemErro = err.error;
         } else {
           this.mensagemErro = 'Erro desconhecido. Tente novamente mais tarde.';
         }
       }
-      this.carregarReservas();
+      this.carregarReservasPaginadas();
     });
   }
 
@@ -128,7 +154,20 @@ export class ReservasComponent implements OnInit {
     this.reservaEditada = {};
   }
 
-  copiarObjetoEdicao(reserva:any){
+  /*copiarObjetoEdicao(reserva:any){
     this.reservaEditada = JSON.parse(JSON.stringify(reserva));
+  }*/
+
+  formatarDataParaInput(data: string): string {
+    const dataObj = new Date(data);
+    return dataObj.toISOString().split('T')[0];  // Retorna no formato YYYY-MM-DD
+  }
+
+  copiarObjetoEdicao(reserva: any): void {
+    this.reservaEditada = { ...reserva };
+  
+    this.reservaEditada.dataReserva = this.formatarDataParaInput(this.reservaEditada.dataReserva);
+    this.reservaEditada.dataCheckIn = this.formatarDataParaInput(this.reservaEditada.dataCheckIn);
+    this.reservaEditada.dataCheckOut = this.formatarDataParaInput(this.reservaEditada.dataCheckOut);
   }
 }

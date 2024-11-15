@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AcomodacoesService } from './acomodacoes.service';
 import { ComodidadesService } from '../comodidades/comodidades.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-acomodacoes',
@@ -13,18 +14,31 @@ export class AcomodacoesComponent implements OnInit {
   editando = false;
   acomodacaoEditada: any = {};
   comodidades: any[] = [];
+  totalPages: number = 0;
+  currentPage: number = 0;
+  size: number = 20;
+  pageSizeOptions: number[] = [20, 50, 100];
 
   constructor(private acomodacoesService: AcomodacoesService,
-              private comodidadeService: ComodidadesService) { }
+              private comodidadeService: ComodidadesService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
-    this.carregarAcomodacoes();
+    this.carregarAcomodacoesPaginadas();
     this.carregarComodidades();
   }
 
   carregarAcomodacoes() {
     this.acomodacoesService.getAcomodacoes().subscribe(acomodacoes => {
       this.acomodacoes = acomodacoes;
+    });
+  }
+
+  carregarAcomodacoesPaginadas(page: number = 0) {
+    this.acomodacoesService.getAcomodacoesPaginadas(page, this.size).subscribe(response => {
+      this.acomodacoes = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
     });
   }
 
@@ -42,7 +56,7 @@ export class AcomodacoesComponent implements OnInit {
     this.novaAcomodacao.comodidades = comodidadesSelecionadas;
 
     this.acomodacoesService.criarAcomodacao(this.novaAcomodacao).subscribe(() => {
-      this.carregarAcomodacoes();
+      this.carregarAcomodacoesPaginadas();
       this.carregarComodidades()
       this.novaAcomodacao = { comodidades: [] };
     });
@@ -61,7 +75,7 @@ export class AcomodacoesComponent implements OnInit {
     this.acomodacaoEditada.comodidades = comodidadesSelecionadas;
 
     this.acomodacoesService.atualizarAcomodacao(this.acomodacaoEditada).subscribe(() => {
-      this.carregarAcomodacoes();
+      this.carregarAcomodacoesPaginadas();
       this.carregarComodidades()
       this.editando = false;
       this.acomodacaoEditada = {}; 
@@ -69,20 +83,30 @@ export class AcomodacoesComponent implements OnInit {
   }
 
   excluirAcomodacao(id:any) {
-    /*this.acomodacoesService.excluirAcomodacao(id).subscribe(() => {
-      this.carregarAcomodacoes();
-      this.carregarComodidades()
-    });*/
     this.acomodacoesService.excluirAcomodacao(id).subscribe(
       () => {
-        this.carregarAcomodacoes();
+        this.carregarAcomodacoesPaginadas();
         this.carregarComodidades();
       },
       (error) => {
-        // Aqui, capturamos o erro e exibimos uma mensagem ao usuário
-        alert(error.error || "Erro ao excluir a acomodação.");
+        this.snackBar.open(error.error || "Erro ao excluir a acomodação.", "Fechar", {
+          duration: 3000,
+          panelClass: ['error-snackbar']
+        });
       }
     );
   }
 
+  mudarPagina(novaPagina: number): void {
+    if (novaPagina >= 0 && novaPagina < this.totalPages) {
+      this.currentPage = novaPagina;
+      this.carregarAcomodacoesPaginadas(this.currentPage);
+    }
+  }
+
+  mudarTamanhoPagina(tamanho: number): void {
+    this.size = tamanho;
+    this.currentPage = 0;
+    this.carregarAcomodacoesPaginadas(this.currentPage);
+  }
 }
