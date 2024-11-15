@@ -80,3 +80,103 @@ h5 { font-size: 14px; }
   margin-left: 5px;
   width: 80px;
 }
+
+.filter-section {
+  margin: 20px 0;
+}
+
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-item {
+  display: flex;
+  flex-direction: column;
+  width: 30%;
+  margin-bottom: 10px;
+}
+
+.filter-item label {
+  font-size: 14px;
+  margin-bottom: 5px;
+  color: #333;
+}
+
+.filter-toggle {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 15px;
+}
+
+.filter-toggle:hover {
+  color: #0056b3;
+}
+
+.filter-toggle i {
+  transition: transform 0.3s ease;
+}
+
+.filter-item input,
+.filter-item select {
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  width: 100%;
+}
+
+.filter-text {
+  margin-right: 8px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.filter-buttons button {
+  padding: 8px 12px;
+}
+
+.btn-filter, .btn-clear {
+  margin-right: 10px;
+}
+
+.btn-filter {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+}
+
+.btn-filter-toggle {
+  margin: 10px 0;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.btn-filter-toggle:hover {
+  opacity: 0.8;
+}
+
+.btn-clear {
+  background-color: #f44336;
+  color: white;
+  border: none;
+}
+
+.btn:hover {
+  opacity: 0.8;
+}

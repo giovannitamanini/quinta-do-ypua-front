@@ -14,6 +14,7 @@ export class ComodidadesComponent implements OnInit {
   editando = false;
   comodidadeEditada: any = {};
 
+  mostrarFiltros = false;
   descricaoFiltro: string = '';
   selectedTipo: string = 'Todos';
   listTipos: string[] = ['Todos', 'MOBILIA', 'ELETRODOMESTICOS', 'UTENSILIOS', 'OUTROS'];
@@ -85,14 +86,22 @@ export class ComodidadesComponent implements OnInit {
   mudarPagina(novaPagina: number): void {
     if (novaPagina >= 0 && novaPagina < this.totalPages) {
       this.currentPage = novaPagina;
-      this.carregarComodidadesPaginadas(this.currentPage);
+      if(this.descricaoFiltro != '' || this.selectedTipo != 'Todos'){
+        this.carregarComodidadesComFiltros(this.currentPage, this.descricaoFiltro, this.selectedTipo);
+      }else{
+        this.carregarComodidadesPaginadas(this.currentPage);
+      }
     }
   }
 
   mudarTamanhoPagina(tamanho: number): void {
     this.size = tamanho;
     this.currentPage = 0;
-    this.carregarComodidadesPaginadas(this.currentPage);
+    if(this.descricaoFiltro != '' || this.selectedTipo != 'Todos'){
+      this.carregarComodidadesComFiltros(this.currentPage, this.descricaoFiltro, this.selectedTipo);
+    }else{
+      this.carregarComodidadesPaginadas(this.currentPage);
+    }
   }
 
   filtrarComodidades() {
@@ -106,5 +115,16 @@ export class ComodidadesComponent implements OnInit {
     this.descricaoFiltro = '';
     this.selectedTipo = 'Todos';
     this.carregarComodidadesPaginadas();
+  }
+
+  formatTipo(tipo: string): string {
+    const tiposFormatados: { [key: string]: string } = {
+      'MOBILIA': 'Mobília',
+      'ELETRODOMESTICOS': 'Eletrodomésticos',
+      'UTENSILIOS': 'Utensílios',
+      'OUTROS': 'Outros',
+    };
+  
+    return tiposFormatados[tipo] || tipo;
   }
 }

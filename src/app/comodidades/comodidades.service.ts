@@ -27,7 +27,7 @@ export class ComodidadesService {
       params.append('descricao', descricao);
     }
 
-    if (tipo) {
+    if (tipo != 'Todos') {
       params.append('tipo', tipo);
     }
 

@@ -1,166 +1,163 @@
 <div class="body">
-    
-    <div class="filter-section">
-      <div>
-        <label for="descricao">Descrição:</label>
-        <input id="descricao" [(ngModel)]="descricaoFiltro" placeholder="Filtrar por descrição">
-      </div>
-    
-      <div>
-        <label for="tipo">Tipo:</label>
-        <select id="tipo" [(ngModel)]="selectedTipo">
-          <option *ngFor="let tipo of listTipos" [value]="tipo">{{tipo}}</option>
-        </select>
-      </div>
-    
-      <div class="filter-buttons">
-        <button (click)="filtrarComodidades()">Filtrar</button>
-        <button (click)="limparFiltros()">Limpar Filtro</button>
+  <!-- Filter Section -->
+  <div>
+    <div class="filter-toggle" (click)="mostrarFiltros = !mostrarFiltros">
+      <span class="filter-text">Filtros</span>
+      <i class="fa" [ngClass]="mostrarFiltros ? 'fa-chevron-up' : 'fa-chevron-down'"></i>
+    </div>
+  
+    <!-- Seção de Filtros -->
+    <div *ngIf="mostrarFiltros" class="filter-section">
+      <div class="filter-container">
+        <div class="filter-item">
+          <label for="descricao">Descrição:</label>
+          <input id="descricao" [(ngModel)]="descricaoFiltro" placeholder="Filtrar por descrição">
+        </div>
+  
+        <div class="filter-item">
+          <label for="tipo">Tipo:</label>
+          <select id="tipo" [(ngModel)]="selectedTipo">
+            <option *ngFor="let tipo of listTipos" [value]="tipo">{{ formatTipo(tipo) }}</option>
+          </select>
+        </div>
+  
+        <div class="filter-buttons">
+          <button (click)="filtrarComodidades()" class="btn btn-filter">Filtrar</button>
+          <button (click)="limparFiltros()" class="btn btn-clear">Limpar Filtro</button>
+        </div>
       </div>
     </div>
-      <!--<div style="margin-top: 2%;">
-        <label for="statusFilter">Descrição:</label>
-        <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filtrarReservas()">
-          <option *ngFor="let descricao of listStatus" [value]="status">{{status}}</option>
-        </select>
-      </div>
-      <div style="margin-top: 1%;">
-        <label for="tipoFilter">Tipo:</label>
-        <select id="tipoFilter" [(ngModel)]="selectedTipo" (change)="filtrarComodidades()">
-          <option *ngFor="let tipo of listTipos" [value]="tipos">{{tipo}}</option>
-        </select>
-      </div>
-    </div>-->
+  </div>
 
-    <!-- Button trigger modal -->
-    <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">
-      + Comodidade
-    </button>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal">
+    + Comodidade
+  </button>
 
+
+  <!-- Modal Cadastro  -->
+  <div class="modal fade" id="comodidadeCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Nova comodidade</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form #form="ngForm" (ngSubmit)="criarComodidade()">
+            <div class="mb-3">
+              <label class="form-label" for="descricao">Descrição</label>
+              <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição" required [(ngModel)]="novaComodidade.descricao"/>
+            </div>
+            <div class="mb-3">
+              <label class="form-label" for="tipo">Tipo</label>
+              <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
+                  <option value="MOBILIA" selected>Mobília</option>
+                  <option value="ELETRODOMESTICOS">Eletrodomésticos</option>
+                  <option value="UTENSILIOS">Utensílios</option>
+                  <option value="OUTROS">Outros</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal" [disabled]="!form.valid">Salvar</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
   
-    <!-- Modal Cadastro  -->
-    <div class="modal fade" id="comodidadeCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
-      <div class="modal-dialog" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Nova comodidade</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div class="modal-body">
-            <form #form="ngForm" (ngSubmit)="criarComodidade()">
-              <div class="mb-3">
+  <!-- Modal Edição -->
+  <div class="modal fade" id="comodidadeEdicaoModal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Editando comodidade</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form (ngSubmit)="atualizarComodidade()">
+            <div class="mb-3">
                 <label class="form-label" for="descricao">Descrição</label>
                 <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição" required [(ngModel)]="novaComodidade.descricao"/>
-              </div>
-              <div class="mb-3">
+            </div>
+            <div class="mb-3">
                 <label class="form-label" for="tipo">Tipo</label>
                 <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
-                    <option value="MOBILIA" selected>Mobília</option>
-                    <option value="ELETRODOMESTICOS">Eletrodomésticos</option>
-                    <option value="UTENSILIOS">Utensílios</option>
+                    <option value="MOBÍLIA" selected>Mobília</option>
+                    <option value="ELETRODOMÉSTICOS">Eletrodomésticos</option>
+                    <option value="UTENSÍLIOS">Utensílios</option>
                     <option value="OUTROS">Outros</option>
                 </select>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeCadastroModal" [disabled]="!form.valid">Salvar</button>
-              </div>
-            </form>
-          </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeEdicaoModal">Atualizar</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>
+  </div>
   
-      <!-- Modal Edição -->
-      <div class="modal fade" id="comodidadeEdicaoModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Editando comodidade</h5>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
-              <form (ngSubmit)="atualizarComodidade()">
-                <div class="mb-3">
-                    <label class="form-label" for="descricao">Descrição</label>
-                    <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição" required [(ngModel)]="novaComodidade.descricao"/>
-                </div>
-                <div class="mb-3">
-                    <label class="form-label" for="tipo">Tipo</label>
-                    <select class="form-control mb-3" id="tipo" name="tipo" [(ngModel)]="novaComodidade.tipo" required>
-                        <option value="MOBÍLIA" selected>Mobília</option>
-                        <option value="ELETRODOMÉSTICOS">Eletrodomésticos</option>
-                        <option value="UTENSÍLIOS">Utensílios</option>
-                        <option value="OUTROS">Outros</option>
-                    </select>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                  <button type="submit" class="btn btn-success" data-toggle="modal" data-target="#comodidadeEdicaoModal">Atualizar</button>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-  
-    <div>
-      <table class="table table-striped listagem table-hover">
-        <thead>
-          <tr>
-            <th scope="col">#</th>
-            <th scope="col">Descrição</th>
-            <th scope="col">Tipo</th>
-            <th scope="col"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let comodidade of comodidades">
-            <td>{{ comodidade.id }}</td>
-            <td>{{ comodidade.descricao }}</td>
-            <td>{{ comodidade.tipo }}</td>
-            <td style="text-align: right;">
-              <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#comodidadeEdicaoModal" (click)="comodidadeEditada = comodidade">
-                <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
-              <button type="button" class="btn btn-sm" aria-label="Left Align" (click)="excluirComodidade(comodidade.id)">
-                <span class="fa fa-trash-o fa-md" aria-hidden="true"></span></button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+  <div>
+    <table class="table table-striped listagem table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Descrição</th>
+          <th scope="col">Tipo</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let comodidade of comodidades">
+          <td>{{ comodidade.id }}</td>
+          <td>{{ comodidade.descricao }}</td>
+          <td>{{ formatTipo(comodidade.tipo) }}</td>
+          <td style="text-align: right;">
+            <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#comodidadeEdicaoModal" (click)="comodidadeEditada = comodidade">
+              <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
+            <button type="button" class="btn btn-sm" aria-label="Left Align" (click)="excluirComodidade(comodidade.id)">
+              <span class="fa fa-trash-o fa-md" aria-hidden="true"></span></button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <nav class="pagination-controls">
+    <div class="items-per-page">
+      <label for="page-size">Itens por página:</label>
+      <select id="page-size" [(ngModel)]="size" (change)="mudarTamanhoPagina(size)">
+        <option *ngFor="let opcao of pageSizeOptions" [value]="opcao">{{ opcao }}</option>
+      </select>
     </div>
 
-    <nav class="pagination-controls">
-      <div class="items-per-page">
-        <label for="page-size">Itens por página:</label>
-        <select id="page-size" [(ngModel)]="size" (change)="mudarTamanhoPagina(size)">
-          <option *ngFor="let opcao of pageSizeOptions" [value]="opcao">{{ opcao }}</option>
-        </select>
-      </div>
-  
-      <div class="pagination-right">
-        <button 
-          class="pagination-button" 
-          (click)="mudarPagina(currentPage - 1)" 
-          [disabled]="currentPage === 0">
-          <i class="fa fa-chevron-left"></i>
-        </button>
-      
-        <span class="pagination-info">
-          Página {{ currentPage + 1 }} de {{ totalPages }}
-        </span>
-      
-        <button 
-          class="pagination-button" 
-          (click)="mudarPagina(currentPage + 1)" 
-          [disabled]="currentPage >= totalPages - 1">
-          <i class="fa fa-chevron-right"></i>
-        </button>
-      </div>
-    </nav>
+    <div class="pagination-right">
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage - 1)" 
+        [disabled]="currentPage === 0">
+        <i class="fa fa-chevron-left"></i>
+      </button>
+    
+      <span class="pagination-info">
+        Página {{ currentPage + 1 }} de {{ totalPages }}
+      </span>
+    
+      <button 
+        class="pagination-button" 
+        (click)="mudarPagina(currentPage + 1)" 
+        [disabled]="currentPage >= totalPages - 1">
+        <i class="fa fa-chevron-right"></i>
+      </button>
+    </div>
+  </nav>
 </div>
   
