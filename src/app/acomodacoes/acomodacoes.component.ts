@@ -69,10 +69,20 @@ export class AcomodacoesComponent implements OnInit {
   }
 
   excluirAcomodacao(id:any) {
-    this.acomodacoesService.excluirAcomodacao(id).subscribe(() => {
+    /*this.acomodacoesService.excluirAcomodacao(id).subscribe(() => {
       this.carregarAcomodacoes();
       this.carregarComodidades()
-    });
+    });*/
+    this.acomodacoesService.excluirAcomodacao(id).subscribe(
+      () => {
+        this.carregarAcomodacoes();
+        this.carregarComodidades();
+      },
+      (error) => {
+        // Aqui, capturamos o erro e exibimos uma mensagem ao usuário
+        alert(error.error || "Erro ao excluir a acomodação.");
+      }
+    );
   }
 
 }

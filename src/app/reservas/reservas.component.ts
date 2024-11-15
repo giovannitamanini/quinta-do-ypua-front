@@ -20,6 +20,7 @@ export class ReservasComponent implements OnInit {
     month: '2-digit',
     year: 'numeric'
   });
+  mensagemErro: string | null = null;
 
   constructor(private reservasService: ReservasService,
               private acomodacoesService: AcomodacoesService,
@@ -81,6 +82,13 @@ export class ReservasComponent implements OnInit {
 
   excluirReserva(id:any) {
     this.reservasService.excluirReserva(id).subscribe(() => {
+      error: (err: { status: number; error: string | null; }) => {
+        if (err.status === 409) {
+          this.mensagemErro = err.error; // Mostra a mensagem de erro retornada pelo backend
+        } else {
+          this.mensagemErro = 'Erro desconhecido. Tente novamente mais tarde.';
+        }
+      }
       this.carregarReservas();
     });
   }
