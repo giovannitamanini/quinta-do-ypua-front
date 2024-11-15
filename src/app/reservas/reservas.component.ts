@@ -22,8 +22,8 @@ export class ReservasComponent implements OnInit {
   });
 
   constructor(private reservasService: ReservasService,
-    private acomodacoesService: AcomodacoesService,
-    private hospedesService: HospedesService) { }
+              private acomodacoesService: AcomodacoesService,
+              private hospedesService: HospedesService) { }
 
   ngOnInit() {
     this.carregarCadastros();
@@ -32,12 +32,12 @@ export class ReservasComponent implements OnInit {
 
   carregarCadastros(){
     this.acomodacoesService.getAcomodacoes().subscribe(acomodacoes => {
-      this.acomodacoes = acomodacoes;
+      this.acomodacoes = acomodacoes; 
     });
 
     this.hospedesService.getHospedes().subscribe(hospedes => {
       this.hospedes = hospedes;
-    }) ;
+    });
   }
 
   carregarReservas() {
@@ -47,11 +47,28 @@ export class ReservasComponent implements OnInit {
   }
 
   criarReserva() {
-    console.log(this.novaReserva)
     this.reservasService.criarReserva(this.novaReserva).subscribe(() => {
       this.carregarReservas();
       this.novaReserva = {};
     });
+  }
+
+  calcularValorTotalNovaReserva() {
+    if (!this.novaReserva.idAcomodacao || !this.novaReserva.qtdDiarias) {
+      this.novaReserva.valorTotal = 0;
+      return;
+    }
+
+    let acomodacaoSelecionada = this.acomodacoes.find(ac => String(ac.id) === String(this.novaReserva.idAcomodacao));
+
+    if (!acomodacaoSelecionada) {
+      this.novaReserva.valorTotal = 0;
+      return;
+    }
+    
+    let qtdDiarias = this.novaReserva.qtdDiarias || 0;
+
+    this.novaReserva.valorTotal = acomodacaoSelecionada.valorDiaria * qtdDiarias;
   }
 
   atualizarReserva() {

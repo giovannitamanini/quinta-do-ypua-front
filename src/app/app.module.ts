@@ -11,6 +11,18 @@ import { ReservasComponent } from './reservas/reservas.component';
 import { HospedesComponent } from './hospedes/hospedes.component';
 import { AcomodacoesComponent } from './acomodacoes/acomodacoes.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { FullCalendarModule } from '@fullcalendar/angular';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { ReservasDialogComponent } from './reservas-dialog/reservas-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatButtonModule } from '@angular/material/button';
+import { NgxMaskModule } from 'ngx-mask';
+import { ComodidadesComponent } from './comodidades/comodidades.component';
+import { registerLocaleData } from '@angular/common';
+import localePt from '@angular/common/locales/pt';
+
+registerLocaleData(localePt);
 
 @NgModule({
   declarations: [
@@ -20,13 +32,21 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     ReservasComponent,
     HospedesComponent,
     AcomodacoesComponent,
+    DashboardComponent,
+    ReservasDialogComponent,
+    ComodidadesComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     FormsModule,
-    NgbModule
+    NgbModule,
+    FullCalendarModule,
+    BrowserAnimationsModule,
+    MatDialogModule,
+    MatButtonModule,
+    NgxMaskModule.forRoot(),
   ],
   providers: [],
   bootstrap: [AppComponent]

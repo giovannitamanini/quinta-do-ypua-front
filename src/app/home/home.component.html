@@ -1,9 +1,21 @@
 <div class="body">
-  <div style="margin-top: 5%;">
-    <img src="./../../assets/pousada.png" style="margin-top:5%; margin-bottom: 5%;">
-    <button class="btn btn-light home-btn col-md-12" routerLink="/reservas">Reservas</button>
-    <button class="btn btn-light home-btn col-md-12" routerLink="/hospedes">Hóspedes</button>
-    <button class="btn btn-light home-btn col-md-12" routerLink="/acomodacoes">Acomodações</button>
+  <div class="filter-section">
+    <div style="margin-top: 2%;">
+      <label for="statusFilter">Status da Reserva:</label>
+      <select id="statusFilter" [(ngModel)]="selectedStatus" (change)="filtrarReservas()">
+        <option *ngFor="let status of listStatus" [value]="status">{{status}}</option>
+      </select>
+    </div>
+    <div style="margin-top: 1%;">
+      <label for="acomodacaoFilter">Acomodação:</label>
+      <select id="acomodacaoFilter" [(ngModel)]="selectedAcomodacao" (change)="filtrarReservas()">
+        <option *ngFor="let acomodacao of listAcomodacoes" [value]="acomodacao">{{acomodacao}}</option>
+      </select>
+    </div>
+  </div>
+  <div style="margin-top: 3%;">
+    <full-calendar [options]="calendarOptions"
+                   (eventClick)="showReservaDetails($event)">
+    </full-calendar>
   </div>
 </div>
-

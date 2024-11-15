@@ -46,4 +46,24 @@ export class HospedesComponent implements OnInit {
       this.carregarHospedes();
     });
   }
+
+  formatarTelefone(telefone: string): string {
+    const telefoneLimpo = telefone.replace(/\D/g, '');
+    
+    if (telefoneLimpo.length === 11) {
+      return `(${telefoneLimpo.slice(0, 2)})${telefoneLimpo.slice(2, 7)}-${telefoneLimpo.slice(7, 11)}`;
+    }
+    
+    return telefoneLimpo;
+  }
+
+  formatarCpf(cpf: string): string {
+    const cpfLimpo = cpf.replace(/\D/g, '');
+  
+    if (cpfLimpo.length === 11) {
+      return `${cpfLimpo.slice(0, 3)}.${cpfLimpo.slice(3, 6)}.${cpfLimpo.slice(6, 9)}-${cpfLimpo.slice(9, 11)}`;
+    }
+  
+    return cpfLimpo;
+  }
 }

@@ -1,5 +1,5 @@
 .body {
-  width: 1080px;
+  width: 90%;
   margin: auto;
   padding-left: 1%;
   padding-right: 1%;
@@ -7,4 +7,12 @@
 
 .listagem {
   margin-top: 2%;
+}
+
+.comodidades-container {
+  max-height: 200px; /* Ajuste o valor conforme necessário */
+  overflow-y: auto;  /* Aplica a barra de rolagem quando necessário */
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* 3 colunas de largura igual */
+  gap: 10px;
 }

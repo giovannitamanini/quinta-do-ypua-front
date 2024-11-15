@@ -17,24 +17,24 @@
         <div class="modal-body">
           <form (ngSubmit)="criarReserva()">
             <div class="mb-3">
-              <label class="form-label" for="statusPagamento">Hóspede</label>
+              <label class="form-label" for="idHospede">Hóspede</label>
               <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="novaReserva.idHospede">
                 <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}">{{ hospede.nome }}</option>
               </select>
             </div>
             <div class="mb-3">
               <label class="form-label" for="statusPagamento">Acomodação</label>
-              <select class="form-control mb-3" id="idAcomodacao"  name="idAcomodacao" [(ngModel)]="novaReserva.idAcomodacao">
+              <select class="form-control mb-3" id="idAcomodacao"  name="idAcomodacao" [(ngModel)]="novaReserva.idAcomodacao" (change)="calcularValorTotalNovaReserva()">
                 <option *ngFor="let acomodacao of acomodacoes" value="{{ acomodacao.id }}">{{ acomodacao.nome }}</option>
               </select>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="dataInicial">Data Reserva</label>
-              <input class="form-control" id="dataInicial" name="dataInicial" type="date" placeholder="Data Reserva" required [(ngModel)]="novaReserva.dataInicial"/>
+              <label class="form-label" for="dataReserva">Data Reserva</label>
+              <input class="form-control" id="dataReserva" name="dataReserva" type="date" datetime="yyyy-MM-dd" placeholder="Data Reserva" required [(ngModel)]="novaReserva.dataReserva"/>
             </div>
             <div class="mb-3">
                 <label class="form-label" for="qtdDiarias">Quantidade Diárias</label>
-                <input class="form-control" id="qtdDiarias" name="qtdDiarias" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="novaReserva.qtdDiarias"/>
+                <input class="form-control" id="qtdDiarias" name="qtdDiarias" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="novaReserva.qtdDiarias" (change)="calcularValorTotalNovaReserva()"/>
             </div>
             <div class="mb-3">
               <label class="form-label" for="statusReserva">Status Reserva</label>
@@ -55,16 +55,16 @@
             </div>
             <div class="mb-3">
                 <label class="form-label" for="dataCheckIn">Data Check-In</label>
-                <input class="form-control" id="dataCheckIn" name="cargo" type="date" placeholder="Data Check-in" required  [(ngModel)]="novaReserva.dataCheckIn"/>
+                <input class="form-control" id="dataCheckIn" name="cargo" type="date" datetime="yyyy-MM-dd" placeholder="Data Check-in" required [(ngModel)]="novaReserva.dataCheckIn"/>
             </div>
             <div class="mb-3">
               <label class="form-label" for="dataCheckOut">Data Check-Out</label>
-              <input class="form-control" id="dataCheckOut" name="dataCheckOut" type="date" placeholder="Data Check-out" required [(ngModel)]="novaReserva.dataCheckOut"/>
+              <input class="form-control" id="dataCheckOut" name="dataCheckOut" type="date" datetime="yyyy-MM-dd" placeholder="Data Check-out" required [(ngModel)]="novaReserva.dataCheckOut"/>
             </div>
             <div class="mb-3">
               <label class="form-label" for="valorTotal">Valor total</label>
-              <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Valor total" required  [(ngModel)]="novaReserva.valorTotal"/>
-          </div>
+              <input class="form-control" id="valorTotal" name="valorTotal" type="number" [value]="novaReserva.valorTotal" readonly>
+            </div>
 
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -101,8 +101,8 @@
                 </select>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="dataInicial">Data Reserva</label>
-                <input class="form-control" id="dataInicial" name="dataInicial" type="date" datetime="yyyy-MM-dd" placeholder="Data Reserva" required [(ngModel)]="reservaEditada.dataInicial"/>
+                <label class="form-label" for="dataReserva">Data Reserva</label>
+                <input class="form-control" id="dataReserva" name="dataReserva" type="date" datetime="yyyy-MM-dd" placeholder="Data Reserva" required [(ngModel)]="reservaEditada.dataReserva"/>
               </div>
               <div class="mb-3">
                   <label class="form-label" for="qtdDiarias">Quantidade Diárias</label>
@@ -135,7 +135,7 @@
               </div>
               <div class="mb-3">
                 <label class="form-label" for="valorTotal">Valor Total</label>
-                <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarais"/>
+                <input class="form-control" id="valorTotal" name="valorTotal" type="number" placeholder="Quantidade Diárias" required  [(ngModel)]="reservaEditada.qtdDiarias"/>
             </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="limparObjetoEdicao()">Cancelar</button>
@@ -169,7 +169,7 @@
           <td>{{ reserva.id }}</td>
           <td>{{ getDescricaoHospede(reserva.idHospede) }}</td>
           <td>{{ getDescricaoAcomodacao(reserva.idAcomodacao) }}</td>
-          <td>{{ formatData(reserva.dataInicial) }}</td>
+          <td>{{ formatData(reserva.dataReserva) }}</td>
           <td>{{ reserva.qtdDiarias }}</td>
           <td>{{ formatData(reserva.dataCheckIn) }}</td>
           <td>{{ formatData(reserva.dataCheckOut) }}</td>
@@ -184,7 +184,7 @@
               {{ reserva.statusReserva }}
             </span> 
           </td>
-          <td>{{ reserva.valorTotal }}</td>
+          <td>{{ reserva.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
           <td>
             <span class="badge bg-{{ 
               reserva.statusPagamento === 'PENDENTE' ? 'warning' : 

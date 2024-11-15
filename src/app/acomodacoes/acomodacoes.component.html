@@ -21,16 +21,31 @@
               <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="novaAcomodacao.nome"/>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="valorDiaria">Valor Diária</label>
-              <input class="form-control" id="valorDiaria" name="valorDiaria" type="number" placeholder="Valor diária" required [(ngModel)]="novaAcomodacao.valorDiaria"/>
+              <label class="form-label" for="descricao">Descrição</label>
+              <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição da acomodação" required [(ngModel)]="novaAcomodacao.descricao"/>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="quantidadeHospedes">Quantidade de Hóspedes</label>
-              <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="novaAcomodacao.quantidadeHospedes"/>
+              <label class="form-label" for="valorDiaria">Valor da diária</label>
+              <input class="form-control" id="valorDiaria" name="valorDiaria" type="number" placeholder="Valor da diária" required [(ngModel)]="novaAcomodacao.valorDiaria"/>
             </div>
             <div class="mb-3">
-              <label class="form-label" for="descricaoCamas">Descrição das camas</label>
-              <input class="form-control" id="descricaoCamas" name="descricaoCamas" type="text" placeholder="Descrição das camas" required [(ngModel)]="novaAcomodacao.descricaoCamas"/>
+              <label class="form-label" for="quantidadeHospedes">Quantidade de hóspedes</label>
+              <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="novaAcomodacao.qtdHospedes"/>
+            </div>
+
+            <!-- Comodidades -->
+            <div class="mb-3">
+              <label class="form-label" for="comodidades">Comodidades</label>
+              <div class="comodidades-container">
+                <div *ngFor="let comodidade of comodidades" class="form-check">
+                  <input class="form-check-input" 
+                         type="checkbox" 
+                         [id]="comodidade.id" 
+                         [(ngModel)]="comodidade.selected"
+                         [name]="'comodidade-' + comodidade.id">
+                  <label class="form-check-label" [for]="comodidade.id">{{ comodidade.descricao }}</label>
+                </div>
+              </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -59,16 +74,30 @@
                 <input class="form-control" id="nome" name="nome" type="text" placeholder="Nome" required [(ngModel)]="acomodacaoEditada.nome"/>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="valorDiaria">Valor Diária</label>
+                <label class="form-label" for="descricao">Descrição</label>
+                <input class="form-control" id="descricao" name="descricao" type="text" placeholder="Descrição da acomodação" required [(ngModel)]="acomodacaoEditada.descricao"/>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="valorDiaria">Valor da diária</label>
                 <input class="form-control" id="valorDiaria" name="valorDiaria" type="number" placeholder="Valor diária" required [(ngModel)]="acomodacaoEditada.valorDiaria"/>
               </div>
               <div class="mb-3">
-                <label class="form-label" for="quantidadeHospedes">Quantidade de Hóspedes</label>
-                <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="acomodacaoEditada.quantidadeHospedes"/>
+                <label class="form-label" for="quantidadeHospedes">Quantidade de hóspedes</label>
+                <input class="form-control" id="quantidadeHospedes" name="quantidadeHospedes" type="number" placeholder="Quantidade de hóspedes" required [(ngModel)]="acomodacaoEditada.qtdHospedes"/>
               </div>
+              <!-- Comodidades -->
               <div class="mb-3">
-                <label class="form-label" for="descricaoCamas">Descrição das camas</label>
-                <input class="form-control" id="descricaoCamas" name="descricaoCamas" type="text" placeholder="Descrição das camas" required [(ngModel)]="acomodacaoEditada.descricaoCamas"/>
+                <label class="form-label" for="comodidades">Comodidades</label>
+                <div class="comodidades-container">
+                  <div *ngFor="let comodidade of comodidades" class="form-check">
+                    <input class="form-check-input" 
+                          type="checkbox" 
+                          [id]="comodidade.id" 
+                          [(ngModel)]="comodidade.selected"
+                          [name]="'comodidade-' + comodidade.id">
+                    <label class="form-check-label" [for]="comodidade.id">{{ comodidade.descricao }}</label>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -86,9 +115,8 @@
         <tr>
           <th scope="col">#</th>
           <th scope="col">Nome</th>
-          <th style="text-align: right;" scope="col">Valor Diária</th>
-          <th style="text-align: right;" scope="col">Qtd. Hóspedes</th>
-          <th style="text-align: right;" scope="col">Descrição das camas</th>
+          <th style="text-align: right;" scope="col">Valor diária</th>
+          <th style="text-align: right;" scope="col">Hóspedes</th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -96,11 +124,10 @@
         <tr *ngFor="let acomodacao of acomodacoes">
           <td>{{ acomodacao.id }}</td>
           <td>{{ acomodacao.nome }}</td>
-          <td style="text-align: right;">{{ acomodacao.valorDiaria }}</td>
-          <td style="text-align: right;">{{ acomodacao.quantidadeHospedes }}</td>
-          <td style="text-align: right;">{{ acomodacao.descricaoCamas }}</td>
+          <td style="text-align: right;">{{ acomodacao.valorDiaria | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+          <td style="text-align: right;">{{ acomodacao.qtdHospedes }}</td>
           <td style="text-align: right;">
-            <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#acomodacaoEdicaoModal" (click)="acomodacaoEditada = acomodacao">
+            <button type="button" class="btn btn-sm" aria-label="Left Align" data-toggle="modal" data-target="#acomodacaoEdicaoModal" (click)="editarAcomodacao(acomodacao)">
               <span class="fa fa-pencil fa-md" aria-hidden="true"></span></button>
 
               <button type="button" class="btn btn-sm" aria-label="Left Align" (click)="excluirAcomodacao(acomodacao.id)">
