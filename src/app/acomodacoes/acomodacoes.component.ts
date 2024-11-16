@@ -14,6 +14,14 @@ export class AcomodacoesComponent implements OnInit {
   editando = false;
   acomodacaoEditada: any = {};
   comodidades: any[] = [];
+
+  // Filtros
+  nomeFiltro: string = '';
+  qtdHospedesFiltro: number | null = null;
+  valorMinFiltro: number | null = null;
+  valorMaxFiltro: number | null = null;
+
+  // Paginação
   totalPages: number = 0;
   currentPage: number = 0;
   size: number = 20;
@@ -40,6 +48,14 @@ export class AcomodacoesComponent implements OnInit {
       this.totalPages = response.totalPages;
       this.currentPage = response.number;
     });
+  }
+
+  carregarAcomodacoesComFiltros(page: number = 0, nome: string = '', qtdHospedes: number | null = null, valorMin: number | null = null, valorMax: number | null = null) {
+    /*this.acomodacoesService.getAcomodacoesFiltradas(nome, qtdHospedes, valorMin, valorMax, page, this.size).subscribe(response => {
+      this.acomodacoes = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });*/
   }
 
   carregarComodidades() {
@@ -100,13 +116,34 @@ export class AcomodacoesComponent implements OnInit {
   mudarPagina(novaPagina: number): void {
     if (novaPagina >= 0 && novaPagina < this.totalPages) {
       this.currentPage = novaPagina;
-      this.carregarAcomodacoesPaginadas(this.currentPage);
+      if (this.nomeFiltro || this.qtdHospedesFiltro || this.valorMinFiltro || this.valorMaxFiltro) {
+        this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+      } else {
+        this.carregarAcomodacoesPaginadas(this.currentPage);
+      }
     }
   }
 
   mudarTamanhoPagina(tamanho: number): void {
     this.size = tamanho;
     this.currentPage = 0;
-    this.carregarAcomodacoesPaginadas(this.currentPage);
+    if (this.nomeFiltro || this.qtdHospedesFiltro || this.valorMinFiltro || this.valorMaxFiltro) {
+      this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+    } else {
+      this.carregarAcomodacoesPaginadas(this.currentPage);
+    }
+  }
+
+  filtrarAcomodacoes() {
+    this.currentPage = 0;
+    this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+  }
+
+  limparFiltros() {
+    this.nomeFiltro = '';
+    this.qtdHospedesFiltro = null;
+    this.valorMinFiltro = null;
+    this.valorMaxFiltro = null;
+    this.carregarAcomodacoesPaginadas();
   }
 }

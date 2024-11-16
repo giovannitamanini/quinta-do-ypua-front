@@ -58,12 +58,13 @@ export class HomeComponent implements OnInit {
         const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
   
         return {
-          title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
+          title: `${hospede ? (hospede.nome + ' ' + hospede.sobrenome) : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
           start: dataCheckIn,
           end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
           allDay: true,
           extendedProps: {
             hospedeNome: hospede ? hospede.nome : 'Desconhecido',
+            hospedeSobrenome: hospede ? hospede.sobrenome : 'Desconhecido',
             acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',    
             dataCheckIn: dataCheckIn.toLocaleDateString(),
             dataCheckOut: dataCheckOut.toLocaleDateString(),    
@@ -118,12 +119,13 @@ export class HomeComponent implements OnInit {
       const dataCheckOut = new Date(reserva.dataCheckOut[0], reserva.dataCheckOut[1] - 1, reserva.dataCheckOut[2]);
 
       return {
-        title: `${hospede ? hospede.nome : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
+        title: `${hospede ? (hospede.nome + ' ' + hospede.sobrenome) : 'Hóspede Desconhecido'} - ${acomodacao ? acomodacao.nome : 'Acomodação Desconhecida'}`,
         start: dataCheckIn,
         end: new Date(dataCheckOut.getFullYear(), dataCheckOut.getMonth(), dataCheckOut.getDate() + 1).toISOString().split('T')[0],
         allDay: true,
         extendedProps: {
           hospedeNome: hospede ? hospede.nome : 'Desconhecido',
+          hospedeSobrenome: hospede ? hospede.sobrenome : 'Desconhecido',
           acomodacaoNome: acomodacao ? acomodacao.nome : 'Desconhecida',
           dataCheckIn: dataCheckIn.toLocaleDateString(),
           dataCheckOut: dataCheckOut.toLocaleDateString(),
@@ -163,6 +165,7 @@ export class HomeComponent implements OnInit {
     const dialogRef = this.dialog.open(ReservasDialogComponent, {
       data: {
         hospedeNome: event.event.extendedProps.hospedeNome,
+        hospedeSobrenome: event.event.extendedProps.hospedeSobrenome,
         acomodacaoNome: event.event.extendedProps.acomodacaoNome,
         dataCheckIn: event.event.extendedProps.dataCheckIn,
         dataCheckOut: event.event.extendedProps.dataCheckOut,

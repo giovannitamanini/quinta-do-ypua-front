@@ -2,6 +2,7 @@ import { HospedesService } from './../hospedes/hospedes.service';
 import { Component, OnInit } from '@angular/core';
 import { ReservasService } from './reservas.service';
 import { AcomodacoesService } from '../acomodacoes/acomodacoes.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reservas',
@@ -29,7 +30,8 @@ export class ReservasComponent implements OnInit {
 
   constructor(private reservasService: ReservasService,
               private acomodacoesService: AcomodacoesService,
-              private hospedesService: HospedesService) { }
+              private hospedesService: HospedesService,
+              private snackBar: MatSnackBar) { }
 
   ngOnInit() {
     this.carregarCadastros();
@@ -74,10 +76,18 @@ export class ReservasComponent implements OnInit {
   }
 
   criarReserva() {
-    this.reservasService.criarReserva(this.novaReserva).subscribe(() => {
-      this.carregarReservasPaginadas();
-      this.novaReserva = {};
-    });
+    this.reservasService.criarReserva(this.novaReserva).subscribe(
+      () => {
+        this.carregarReservasPaginadas();
+        this.novaReserva = {};    
+      },
+      (error: { error: any; }) => {
+        this.snackBar.open(error.error || "Erro ao criar reserva.", "Fechar", {
+          duration: 3000,
+          panelClass: ['error-snackbar'] 
+        });
+      }
+    );
   }
 
   calcularValorTotalNovaReserva() {
@@ -106,17 +116,18 @@ export class ReservasComponent implements OnInit {
     });
   }
 
-  excluirReserva(id:any) { 
-    this.reservasService.excluirReserva(id).subscribe(() => {
-      error: (err: { status: number; error: string | null; }) => {
-        if (err.status === 409) {
-          this.mensagemErro = err.error;
-        } else {
-          this.mensagemErro = 'Erro desconhecido. Tente novamente mais tarde.';
-        }
+  excluirReserva(id:any) {
+    this.reservasService.excluirReserva(id).subscribe(
+      () => {
+        this.carregarReservasPaginadas();
+      },
+      (error) => {
+        this.snackBar.open(error.error || "Erro ao excluir a comodidade.", "Fechar", {
+          duration: 3000,
+          panelClass: ['error-snackbar'] 
+        });
       }
-      this.carregarReservasPaginadas();
-    });
+    );
   }
 
   formatData(dataString:any){
@@ -143,7 +154,7 @@ export class ReservasComponent implements OnInit {
     if(id != undefined){
       this.hospedes.forEach(hospede => {
         if(hospede.id.toString() == id.toString()){
-          out_desc = hospede.nome;
+          out_desc = hospede.nome + ' ' + hospede.sobrenome;
         }
       });
     }
@@ -154,9 +165,9 @@ export class ReservasComponent implements OnInit {
     this.reservaEditada = {};
   }
 
-  /*copiarObjetoEdicao(reserva:any){
-    this.reservaEditada = JSON.parse(JSON.stringify(reserva));
-  }*/
+  formatStatus(status: string): string {
+    return status.replace(/_/g, ' ');
+  }
 
   formatarDataParaInput(data: string): string {
     const dataObj = new Date(data);

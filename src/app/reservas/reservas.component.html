@@ -19,7 +19,7 @@
             <div class="mb-3">
               <label class="form-label" for="idHospede">Hóspede</label>
               <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="novaReserva.idHospede">
-                <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}">{{ hospede.nome }}</option>
+                <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}">{{ hospede.nome }} {{ hospede.sobrenome }}</option>
               </select>
             </div>
             <div class="mb-3">
@@ -91,7 +91,7 @@
               <div class="mb-3">
                 <label class="form-label" for="idHospede">Hóspede</label>
                 <select class="form-control mb-3" id="idHospede"  name="idHospede" [(ngModel)]="reservaEditada.idHospede">
-                  <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}" [attr.selected]="hospede.id == reservaEditada.idHospede">{{ hospede.nome }}</option>
+                  <option *ngFor="let hospede of hospedes" value="{{ hospede.id }}" [attr.selected]="hospede.id == reservaEditada.idHospede">{{ hospede.nome }} {{ hospede.sobrenome }}</option>
                 </select>
               </div>
               <div class="mb-3">
@@ -181,7 +181,7 @@
               reserva.statusReserva === 'CANCELADA' ? 'danger' :
               'secondary'
             }}">
-              {{ reserva.statusReserva }}
+              {{ formatStatus(reserva.statusReserva) }}
             </span> 
           </td>
           <td>{{ reserva.valorTotal | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -22,6 +22,8 @@ import { ComodidadesComponent } from './comodidades/comodidades.component';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { LoginComponent } from './login/login.component';
+import { AuthInterceptor } from './auth.interceptor';
 
 registerLocaleData(localePt);
 
@@ -36,6 +38,7 @@ registerLocaleData(localePt);
     DashboardComponent,
     ReservasDialogComponent,
     ComodidadesComponent,
+    LoginComponent,
   ],
   imports: [
     BrowserModule,
@@ -50,7 +53,13 @@ registerLocaleData(localePt);
     NgxMaskModule.forRoot(),
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

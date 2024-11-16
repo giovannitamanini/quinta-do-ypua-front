@@ -19,6 +19,11 @@ export class HospedesComponent implements OnInit {
   size: number = 20;
   pageSizeOptions: number[] = [20, 50, 100];
 
+  nomeFiltro: string = '';
+  hospedesFiltro: number | null = null;
+  diariaMinFiltro: number | null = null;
+  diariaMaxFiltro: number | null = null;
+
   constructor(private hospedeService: HospedesService,
               private snackBar: MatSnackBar) { }
 
@@ -38,6 +43,33 @@ export class HospedesComponent implements OnInit {
       this.totalPages = response.totalPages;
       this.currentPage = response.number;
     });
+  }
+
+  /*carregarHospedesComFiltros(page: number = 0, nome: string = '', hospedes: number | null = null, diariaMin: number | null = null, diariaMax: number | null = null) {
+    this.hospedeService.getHospedesComFiltros(nome, hospedes, diariaMin, diariaMax, page, this.size).subscribe(response => {
+      this.hospedes = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
+  filtrarAcomodacoes() {
+    this.currentPage = 0; 
+    this.carregarHospedesComFiltros(
+      this.currentPage,
+      this.nomeFiltro,
+      this.hospedesFiltro,
+      this.diariaMinFiltro,
+      this.diariaMaxFiltro
+    );
+  }*/
+
+  limparFiltros() {
+    this.nomeFiltro = '';
+    this.hospedesFiltro = null;
+    this.diariaMinFiltro = null;
+    this.diariaMaxFiltro = null;
+    this.carregarHospedesPaginados();
   }
 
   mudarPagina(novaPagina: number): void {

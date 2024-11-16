@@ -19,6 +19,26 @@ export class AcomodacoesService {
     return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
+  public getAcomodacoesFiltradas(nome?: string, qtdHospedes?: number, valorMin?: number, valorMax?: number, page: number = 0, size: number = 20): Observable<any> {
+    let params = new HttpParams();
+
+    if (nome) {
+      params = params.set('nome', nome);
+    }
+    if (qtdHospedes) {
+      params = params.set('qtdHospedes', qtdHospedes.toString());
+    }
+    if (valorMin) {
+      params = params.set('valorMin', valorMin.toString());
+    }
+    if (valorMax) {
+      params = params.set('valorMax', valorMax.toString());
+    }
+
+    params = params.set('page', page.toString()).set('size', size.toString());
+    return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
+  }
+
   criarAcomodacao(acomodacao:any): Observable<any> {
     return this.httpClient.post(this.apiUrl, acomodacao);
   }

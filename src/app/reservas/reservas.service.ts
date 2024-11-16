@@ -20,16 +20,16 @@ export class ReservasService {
   }
 
   criarReserva(reserva:any): Observable<any> {
-    return this.httpClient.post(this.apiUrl, reserva);
+    return this.httpClient.post(this.apiUrl, reserva, { responseType: 'text' });
   }
 
   atualizarReserva(reserva:any): Observable<any> {
     const url = `${this.apiUrl}/${reserva.id}`;
-    return this.httpClient.put(url, reserva);
+    return this.httpClient.put(url, reserva, { responseType: 'text' });
   }
 
   excluirReserva(id:any): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
-    return this.httpClient.delete(url);
+    return this.httpClient.delete(url, { responseType: 'text' });
   }
 }
