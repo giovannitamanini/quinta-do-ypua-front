@@ -106,8 +106,6 @@ export class ComodidadesComponent implements OnInit {
 
   filtrarComodidades() {
     this.currentPage = 0;
-    console.log('this.descricaoFiltro',this.descricaoFiltro)
-    console.log('this.selectedTipo',this.selectedTipo)
     this.carregarComodidadesComFiltros(this.currentPage, this.descricaoFiltro, this.selectedTipo);
   }
 

@@ -202,7 +202,7 @@ export class ReservasComponent implements OnInit {
 
   copiarObjetoEdicao(reserva: any): void {
     this.reservaEditada = { ...reserva };
-  
+
     this.reservaEditada.dataReserva = this.formatarDataParaInput(this.reservaEditada.dataReserva);
     this.reservaEditada.dataCheckIn = this.formatarDataParaInput(this.reservaEditada.dataCheckIn);
     this.reservaEditada.dataCheckOut = this.formatarDataParaInput(this.reservaEditada.dataCheckOut);
@@ -218,6 +218,7 @@ export class ReservasComponent implements OnInit {
 
   filtrarReservas() {
     this.currentPage = 0; 
+    this.listAcomodacoes = this.acomodacoes.map(acomodacao => acomodacao.nome);
     this.carregarReservasComFiltros(
       this.currentPage,
       this.selectedAcomodacao,
@@ -226,6 +227,7 @@ export class ReservasComponent implements OnInit {
   }
 
   limparFiltros() {
+    this.listAcomodacoes = this.acomodacoes.map(acomodacao => acomodacao.nome);
     this.selectedAcomodacao = 'Todas';
     this.selectedStatus = 'Todos';
     this.carregarReservasPaginadas();
