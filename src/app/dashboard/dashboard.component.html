@@ -1,2 +1,68 @@
-<p>dashboard works!</p>
-<div class="chart-container" [chart]="chart"></div>
+<div class="filtros">
+    <mat-form-field appearance="fill">
+      <mat-label>Mês</mat-label>
+      <mat-select [(ngModel)]="selectedMonth" class="custom-mat-select">
+        <mat-option *ngFor="let month of months" [value]="month.value">
+          {{ month.name }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Ano</mat-label>
+      <mat-select [(ngModel)]="selectedYear" class="custom-mat-select">
+        <mat-option *ngFor="let year of years" [value]="year">
+          {{ year }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <i class="fa fa-refresh" (click)="loadDashboardData()"></i>
+    <!--<button class="btn-atualizar" mat-raised-button color="primary" (click)="loadDashboardData()">Atualizar Dashboard</button>-->
+</div>
+
+<div class="widget-container">
+    <div class="widget yellow">
+        <div class="icon">
+          <i class="fa fa-bed"></i>
+        </div>
+        <div class="value">
+          <div class="top">{{ getTaxaOcupacao() | number: '1.2-2' }}%</div>
+          <div class="bottom">Taxa de ocupação atual</div>
+        </div>
+      </div>
+    <div class="widget green">
+      <div class="icon">
+        <i class="fa fa-money"></i>
+      </div>
+      <div class="value">
+        <div class="top">{{ getReceitaMensal() | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</div>
+        <div class="bottom">Receita/mês</div>
+      </div>
+    </div>
+    <div class="widget blue">
+      <div class="icon">
+        <i class="fa fa-clock-o"></i>
+      </div>
+      <div class="value">
+        <div class="top">{{ getTempoMedioEstadia() | number: '1.2-2' }} dias</div>
+        <div class="bottom">Tempo médio de estadia/mês</div>
+      </div>
+    </div>
+    <div class="widget red">
+        <div class="icon">
+          <i class="fa fa-ban"></i>
+        </div>
+        <div class="value">
+          <div class="top">{{ getTaxaCancelamento() | number: '1.2-2' }}%</div>
+          <div class="bottom">Taxa de cancelamento/mês</div>
+        </div>
+      </div>
+</div>
+
+<div id="chartContainer" class="graph-container">
+    <highcharts-chart 
+      [Highcharts]="Highcharts" 
+      [options]="chartOptions" 
+      style="width: 90%">
+    </highcharts-chart>
+</div>

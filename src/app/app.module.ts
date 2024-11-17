@@ -17,11 +17,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReservasDialogComponent } from './reservas-dialog/reservas-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select';
+import { MatNativeDateModule } from '@angular/material/core'; 
+import { MatInputModule } from '@angular/material/input';
 import { NgxMaskModule } from 'ngx-mask';
 import { ComodidadesComponent } from './comodidades/comodidades.component';
 import { registerLocaleData } from '@angular/common';
 import localePt from '@angular/common/locales/pt';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { HighchartsChartModule } from 'highcharts-angular';
 
 registerLocaleData(localePt);
 
@@ -47,8 +53,14 @@ registerLocaleData(localePt);
     BrowserAnimationsModule,
     MatDialogModule,
     MatButtonModule,
+    MatDatepickerModule,
+    MatSelectModule,
+    MatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
     NgxMaskModule.forRoot(),
-    MatSnackBarModule
+    MatSnackBarModule,
+    HighchartsChartModule
   ],
   providers: [],
   bootstrap: [AppComponent]

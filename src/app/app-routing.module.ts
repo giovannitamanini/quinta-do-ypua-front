@@ -13,6 +13,7 @@ const routes: Routes = [
   {path: 'acomodacoes', component: AcomodacoesComponent},
   {path: 'hospedes', component: HospedesComponent},
   {path: 'reservas', component: ReservasComponent},
+  {path: 'comodidades', component: ComodidadesComponent},
   {path: 'dashboard', component: DashboardComponent},
 ];
 

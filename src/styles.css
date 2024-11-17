@@ -111,7 +111,7 @@ h5 { font-size: 14px; }
   align-items: center;
   cursor: pointer;
   font-size: 16px;
-  margin-top: 10px;
+  margin-top: 15px;
   margin-bottom: 15px;
 }
 
@@ -134,6 +134,7 @@ h5 { font-size: 14px; }
 
 .filter-text {
   margin-right: 8px;
+  margin-left: 6px;
 }
 
 .filter-buttons {
@@ -141,6 +142,66 @@ h5 { font-size: 14px; }
   gap: 10px;
   align-items: center;
   margin-top: 10px;
+}
+
+.filtros{
+  color: #333 !important;
+  width: 300px;
+}
+
+.filtros .fa-refresh {
+  font-size: 22px;   
+  color: #333;      
+  cursor: pointer;     
+  margin-left: 20px; 
+}
+
+.filtros .fa-refresh:hover {
+  color: purple;    
+}
+
+.mat-form-field{
+  width: 150px;
+}
+
+.mat-form-field:hover{
+  color: #333 !important;
+}
+
+.mat-form{
+  background-color: #333 !important;
+  font-size: 16px;
+}
+
+.mat-select-min-line {
+  color: #333 !important;
+}
+
+.mat-select-min-line:hover {
+  color: purple !important;
+}
+
+.mat-form-field{
+  color: #333 !important;
+  font-size: 16px;
+}
+
+.mat-form-field-underline {
+  color: black !important; 
+}
+
+
+
+.mat-form-field-underline.mat-focused {
+  background-color: purple; 
+}
+
+.mat-select-arrow {
+  color: #333;
+}
+
+.mat-select-arrow:hover {
+  color: purple; 
 }
 
 .filter-buttons button {
