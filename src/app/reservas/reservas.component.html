@@ -4,6 +4,38 @@
     + Reserva
   </button>
 
+  <!-- Filter Section -->
+  <div>
+    <div class="filter-toggle" (click)="mostrarFiltros = !mostrarFiltros">
+      <span class="filter-text">Aplicar filtros</span>
+      <i class="fa" [ngClass]="mostrarFiltros ? 'fa fa-filter' : 'fa fa-filter'"></i>
+    </div>
+  
+    <!-- Seção de Filtros -->
+    <div *ngIf="mostrarFiltros" class="filter-section">
+      <div class="filter-container">
+        <div class="filter-item">
+          <label for="acomodacao">Acomodação:</label>
+          <select id="acomodacao" [(ngModel)]="selectedAcomodacao">
+            <option *ngFor="let acomodacao of listAcomodacoes" [value]="acomodacao">{{ acomodacao }}</option>
+          </select>
+        </div>
+  
+        <div class="filter-item">
+          <label for="status">Status Reserva:</label>
+          <select id="status" [(ngModel)]="selectedStatus">
+            <option *ngFor="let status of listStatusReserva" [value]="status">{{ formatStatusFiltro(status) }}</option>
+          </select>
+        </div>
+  
+        <div class="filter-buttons">
+          <button (click)="filtrarReservas()" class="btn btn-filter">Filtrar</button>
+          <button (click)="limparFiltros()" class="btn btn-clear">Limpar Filtro</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Modal Cadastro -->
   <div class="modal fade" id="reservaCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">

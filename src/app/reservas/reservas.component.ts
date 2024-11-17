@@ -28,6 +28,12 @@ export class ReservasComponent implements OnInit {
   size: number = 20;
   pageSizeOptions: number[] = [20, 50, 100];
 
+  mostrarFiltros = false;
+  selectedStatus: string = 'Todos';
+  listStatusReserva: string[] = ['Todos', 'PENDENTE','EM_ANDAMENTO','FINALIZADA','CANCELADA'];
+  selectedAcomodacao: string = 'Todas';
+  listAcomodacoes: string[] = [];
+
   constructor(private reservasService: ReservasService,
               private acomodacoesService: AcomodacoesService,
               private hospedesService: HospedesService,
@@ -41,6 +47,7 @@ export class ReservasComponent implements OnInit {
   carregarCadastros(){
     this.acomodacoesService.getAcomodacoes().subscribe(acomodacoes => {
       this.acomodacoes = acomodacoes; 
+      this.listAcomodacoes = this.acomodacoes.map(acomodacao => acomodacao.nome);
     });
 
     this.hospedesService.getHospedes().subscribe(hospedes => {
@@ -65,14 +72,22 @@ export class ReservasComponent implements OnInit {
   mudarPagina(novaPagina: number): void {
     if (novaPagina >= 0 && novaPagina < this.totalPages) {
       this.currentPage = novaPagina;
-      this.carregarReservasPaginadas(this.currentPage);
+      if(this.selectedAcomodacao != 'Todas' || this.selectedStatus != 'Todos'){
+        this.carregarReservasComFiltros(this.currentPage, this.selectedAcomodacao, this.selectedStatus);
+      }else{
+        this.carregarReservasPaginadas(this.currentPage);
+      }
     }
   }
 
   mudarTamanhoPagina(tamanho: number): void {
     this.size = tamanho;
     this.currentPage = 0;
-    this.carregarReservasPaginadas(this.currentPage);
+    if(this.selectedAcomodacao != 'Todas' || this.selectedStatus != 'Todos'){
+      this.carregarReservasComFiltros(this.currentPage, this.selectedAcomodacao, this.selectedStatus);
+    }else{
+      this.carregarReservasPaginadas(this.currentPage);
+    }
   }
 
   criarReserva() {
@@ -169,9 +184,20 @@ export class ReservasComponent implements OnInit {
     return status.replace(/_/g, ' ');
   }
 
+  formatStatusFiltro(tipo: string): string {
+    const tiposFormatados: { [key: string]: string } = {
+      'PENDENTE': 'Pendente',
+      'EM_ANDAMENTO': 'Em andamento',
+      'FINALIZADA': 'Finalizada',
+      'CANCELADA': 'Cancelada',
+    };
+  
+    return tiposFormatados[tipo] || tipo;
+  }
+
   formatarDataParaInput(data: string): string {
     const dataObj = new Date(data);
-    return dataObj.toISOString().split('T')[0];  // Retorna no formato YYYY-MM-DD
+    return dataObj.toISOString().split('T')[0]; 
   }
 
   copiarObjetoEdicao(reserva: any): void {
@@ -181,4 +207,28 @@ export class ReservasComponent implements OnInit {
     this.reservaEditada.dataCheckIn = this.formatarDataParaInput(this.reservaEditada.dataCheckIn);
     this.reservaEditada.dataCheckOut = this.formatarDataParaInput(this.reservaEditada.dataCheckOut);
   }
+
+  carregarReservasComFiltros(page: number = 0, acomodacao: string = '', statusReserva: string = '') {
+    this.reservasService.getReservasComFiltros(acomodacao, statusReserva, page, this.size).subscribe(response => {
+      this.reservas = response.content;
+      this.totalPages = response.totalPages;
+      this.currentPage = response.number;
+    });
+  }
+
+  filtrarReservas() {
+    this.currentPage = 0; 
+    this.carregarReservasComFiltros(
+      this.currentPage,
+      this.selectedAcomodacao,
+      this.selectedStatus
+    );
+  }
+
+  limparFiltros() {
+    this.selectedAcomodacao = 'Todas';
+    this.selectedStatus = 'Todos';
+    this.carregarReservasPaginadas();
+  }
+
 }

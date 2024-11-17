@@ -19,36 +19,40 @@ export class AcomodacoesService {
     return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
-  public getAcomodacoesFiltradas(nome?: string, qtdHospedes?: number, valorMin?: number, valorMax?: number, page: number = 0, size: number = 20): Observable<any> {
-    let params = new HttpParams();
+  getAcomodacoesFiltradas(nome: string, qtdHospedes: string, page: number, size: number): Observable<any> {
+    let url = `${this.apiUrl}/filter`;
+    const params = new URLSearchParams();
 
     if (nome) {
-      params = params.set('nome', nome);
-    }
-    if (qtdHospedes) {
-      params = params.set('qtdHospedes', qtdHospedes.toString());
-    }
-    if (valorMin) {
-      params = params.set('valorMin', valorMin.toString());
-    }
-    if (valorMax) {
-      params = params.set('valorMax', valorMax.toString());
+      params.set('nome', nome);
     }
 
-    params = params.set('page', page.toString()).set('size', size.toString());
-    return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
+    if (qtdHospedes) {
+      params.set('qtdHospedes', qtdHospedes);
+    }
+
+    params.set('page', page.toString());
+    params.set('size', size.toString());
+
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+
+    console.log('url', url)
+
+    return this.httpClient.get<any>(url);
   }
 
-  criarAcomodacao(acomodacao:any): Observable<any> {
+  criarAcomodacao(acomodacao: any): Observable<any> {
     return this.httpClient.post(this.apiUrl, acomodacao);
   }
 
-  atualizarAcomodacao(acomodacao:any): Observable<any> {
+  atualizarAcomodacao(acomodacao: any): Observable<any> {
     const url = `${this.apiUrl}/${acomodacao.id}`;
     return this.httpClient.put(url, acomodacao);
   }
 
-  excluirAcomodacao(id:any): Observable<any> {
+  excluirAcomodacao(id: any): Observable<any> {
     const url = `${this.apiUrl}/${id}`;
     return this.httpClient.delete(url);
   }

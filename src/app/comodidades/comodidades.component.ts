@@ -22,7 +22,7 @@ export class ComodidadesComponent implements OnInit {
   totalPages: number = 0;
   currentPage: number = 0;
   size: number = 20;
-  pageSizeOptions: number[] = [20, 1, 100];
+  pageSizeOptions: number[] = [20, 50, 100];
 
   constructor(private comodidadeService: ComodidadesService,
               private snackBar: MatSnackBar) { }

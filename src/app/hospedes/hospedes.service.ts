@@ -19,32 +19,26 @@ export class HospedesService {
     return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
-  public getAcomodacoesComFiltros(
-    nome: string = '',
-    hospedes: number | null = null,
-    diariaMin: number | null = null,
-    diariaMax: number | null = null,
-    page: number = 0,
-    size: number = 20
-  ): Observable<any> {
-    let params = new HttpParams()
-      .set('page', page.toString())
-      .set('size', size.toString());
+  public getHospedesComFiltros(nome: string, cpf: string, page: number, size: number): Observable<any> {
+    let url = `${this.apiUrl}/filter`;
+    const params = new URLSearchParams();
 
     if (nome) {
-      params = params.set('nome', nome);
-    }
-    if (hospedes !== null) {
-      params = params.set('hospedes', hospedes.toString());
-    }
-    if (diariaMin !== null) {
-      params = params.set('diariaMin', diariaMin.toString());
-    }
-    if (diariaMax !== null) {
-      params = params.set('diariaMax', diariaMax.toString());
+      params.append('nome', nome);
     }
 
-    return this.httpClient.get<any>(`${this.apiUrl}/filtro`, { params });
+    if (cpf) {
+      params.append('cpf', cpf);
+    }
+
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+
+    return this.httpClient.get<any>(url);
   }
 
   criarHospede(hospede:any): Observable<any> {

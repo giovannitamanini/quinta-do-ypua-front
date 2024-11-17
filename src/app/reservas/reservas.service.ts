@@ -19,6 +19,28 @@ export class ReservasService {
     return this.httpClient.get(`${this.apiUrl}/paginated`, { params });
   }
 
+  getReservasComFiltros(acomodacao: string, statusReserva: string, page: number, size: number): Observable<any> {
+    let url = `${this.apiUrl}/filter`;
+    const params = new URLSearchParams();
+
+    if (acomodacao) {
+      params.append('acomodacao', acomodacao);
+    }
+
+    if (statusReserva != 'Todos') {
+      params.append('statusReserva', statusReserva);
+    }
+
+    params.append('page', page.toString());
+    params.append('size', size.toString());
+
+    if (params.toString()) {
+      url += `?${params.toString()}`;
+    }
+
+    return this.httpClient.get<any>(url);
+  }
+
   criarReserva(reserva:any): Observable<any> {
     return this.httpClient.post(this.apiUrl, reserva, { responseType: 'text' });
   }

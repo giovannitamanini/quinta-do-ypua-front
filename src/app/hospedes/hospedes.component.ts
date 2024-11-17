@@ -1,4 +1,3 @@
-
 import { Component, OnInit } from '@angular/core';
 import { HospedesService } from './hospedes.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -20,9 +19,9 @@ export class HospedesComponent implements OnInit {
   pageSizeOptions: number[] = [20, 50, 100];
 
   nomeFiltro: string = '';
-  hospedesFiltro: number | null = null;
-  diariaMinFiltro: number | null = null;
-  diariaMaxFiltro: number | null = null;
+  cpfFiltro: string = '';
+
+  mostrarFiltros = false;
 
   constructor(private hospedeService: HospedesService,
               private snackBar: MatSnackBar) { }
@@ -45,48 +44,52 @@ export class HospedesComponent implements OnInit {
     });
   }
 
-  /*carregarHospedesComFiltros(page: number = 0, nome: string = '', hospedes: number | null = null, diariaMin: number | null = null, diariaMax: number | null = null) {
-    this.hospedeService.getHospedesComFiltros(nome, hospedes, diariaMin, diariaMax, page, this.size).subscribe(response => {
+  carregarHospedesComFiltros(page: number = 0, nome: string = '', cpf: string = '') {
+    this.hospedeService.getHospedesComFiltros(nome, cpf, page, this.size).subscribe(response => {
       this.hospedes = response.content;
       this.totalPages = response.totalPages;
       this.currentPage = response.number;
     });
   }
 
-  filtrarAcomodacoes() {
+  filtrarHospedes() {
     this.currentPage = 0; 
     this.carregarHospedesComFiltros(
       this.currentPage,
       this.nomeFiltro,
-      this.hospedesFiltro,
-      this.diariaMinFiltro,
-      this.diariaMaxFiltro
+      this.cpfFiltro
     );
-  }*/
+  }
 
   limparFiltros() {
     this.nomeFiltro = '';
-    this.hospedesFiltro = null;
-    this.diariaMinFiltro = null;
-    this.diariaMaxFiltro = null;
+    this.cpfFiltro = '';
     this.carregarHospedesPaginados();
   }
 
   mudarPagina(novaPagina: number): void {
     if (novaPagina >= 0 && novaPagina < this.totalPages) {
       this.currentPage = novaPagina;
-      this.carregarHospedesPaginados(this.currentPage);
+      if(this.nomeFiltro != '' || this.cpfFiltro != ''){
+        this.carregarHospedesComFiltros(this.currentPage, this.nomeFiltro, this.cpfFiltro);
+      } else {
+        this.carregarHospedesPaginados(this.currentPage);
+      }
     }
   }
 
   mudarTamanhoPagina(tamanho: number): void {
     this.size = tamanho;
     this.currentPage = 0;
-    this.carregarHospedesPaginados(this.currentPage);
+    if(this.nomeFiltro != '' || this.cpfFiltro != ''){
+      this.carregarHospedesComFiltros(this.currentPage, this.nomeFiltro, this.cpfFiltro);
+    } else {
+      this.carregarHospedesPaginados(this.currentPage);
+    }
   }
 
   criarHospede() {
-    console.log(this.novoHospede)
+    console.log(this.novoHospede);
     this.hospedeService.criarHospede(this.novoHospede).subscribe(() => {
       this.carregarHospedesPaginados();
       this.novoHospede = {};
@@ -101,7 +104,7 @@ export class HospedesComponent implements OnInit {
     });
   }
 
-  excluirHospede(id:any) {
+  excluirHospede(id: any) {
     this.hospedeService.excluirHospede(id).subscribe(
       () => {
         this.carregarHospedesPaginados();
@@ -117,7 +120,7 @@ export class HospedesComponent implements OnInit {
 
   formatarTelefone(telefone: string): string {
     const telefoneLimpo = telefone.replace(/\D/g, '');
-    
+
     if (telefoneLimpo.length === 11) {
       return `(${telefoneLimpo.slice(0, 2)})${telefoneLimpo.slice(2, 7)}-${telefoneLimpo.slice(7, 11)}`;
     }

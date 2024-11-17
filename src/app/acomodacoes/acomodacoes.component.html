@@ -4,6 +4,34 @@
     + Acomodação
   </button>
 
+    <!-- Filter Section -->
+    <div>
+      <div class="filter-toggle" (click)="mostrarFiltros = !mostrarFiltros">
+        <span class="filter-text">Aplicar filtros</span>
+        <i class="fa" [ngClass]="mostrarFiltros ? 'fa fa-filter' : 'fa fa-filter'"></i>
+      </div>
+    
+      <!-- Seção de Filtros -->
+      <div *ngIf="mostrarFiltros" class="filter-section">
+        <div class="filter-container">
+          <div class="filter-item">
+            <label for="nome">Nome:</label>
+            <input id="nome" [(ngModel)]="nomeFiltro" placeholder="Filtrar por nome">
+          </div>
+    
+          <div class="filter-item">
+            <label for="qtdHospedes">Quantidade de hóspedes:</label>
+            <input id="qtdHospedes" [(ngModel)]="qtdHospedesFiltro" placeholder="Filtrar por quantidade de hóspedes">
+          </div>
+    
+          <div class="filter-buttons">
+            <button (click)="filtrarAcomodacoes()" class="btn btn-filter">Filtrar</button>
+            <button (click)="limparFiltros()" class="btn btn-clear">Limpar Filtro</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   <!-- Modal Cadastro  -->
   <div class="modal fade" id="acomodacaoCadastroModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog" role="document">

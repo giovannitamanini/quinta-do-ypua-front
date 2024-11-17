@@ -17,9 +17,8 @@ export class AcomodacoesComponent implements OnInit {
 
   // Filtros
   nomeFiltro: string = '';
-  qtdHospedesFiltro: number | null = null;
-  valorMinFiltro: number | null = null;
-  valorMaxFiltro: number | null = null;
+  qtdHospedesFiltro: string = '';
+  mostrarFiltros = false;
 
   // Paginação
   totalPages: number = 0;
@@ -50,12 +49,13 @@ export class AcomodacoesComponent implements OnInit {
     });
   }
 
-  carregarAcomodacoesComFiltros(page: number = 0, nome: string = '', qtdHospedes: number | null = null, valorMin: number | null = null, valorMax: number | null = null) {
-    /*this.acomodacoesService.getAcomodacoesFiltradas(nome, qtdHospedes, valorMin, valorMax, page, this.size).subscribe(response => {
+  carregarAcomodacoesComFiltros(page: number = 0, nome: string = '', qtdHospedes: string = '') {
+    this.acomodacoesService.getAcomodacoesFiltradas(nome, qtdHospedes, page, this.size).subscribe(response => {
       this.acomodacoes = response.content;
       this.totalPages = response.totalPages;
       this.currentPage = response.number;
-    });*/
+    });
+    console.log('this.acomodacoes',this.acomodacoes)
   }
 
   carregarComodidades() {
@@ -116,8 +116,8 @@ export class AcomodacoesComponent implements OnInit {
   mudarPagina(novaPagina: number): void {
     if (novaPagina >= 0 && novaPagina < this.totalPages) {
       this.currentPage = novaPagina;
-      if (this.nomeFiltro || this.qtdHospedesFiltro || this.valorMinFiltro || this.valorMaxFiltro) {
-        this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+      if (this.nomeFiltro || this.qtdHospedesFiltro) {
+        this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro);
       } else {
         this.carregarAcomodacoesPaginadas(this.currentPage);
       }
@@ -127,8 +127,8 @@ export class AcomodacoesComponent implements OnInit {
   mudarTamanhoPagina(tamanho: number): void {
     this.size = tamanho;
     this.currentPage = 0;
-    if (this.nomeFiltro || this.qtdHospedesFiltro || this.valorMinFiltro || this.valorMaxFiltro) {
-      this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+    if (this.nomeFiltro || this.qtdHospedesFiltro) {
+      this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro);
     } else {
       this.carregarAcomodacoesPaginadas(this.currentPage);
     }
@@ -136,14 +136,12 @@ export class AcomodacoesComponent implements OnInit {
 
   filtrarAcomodacoes() {
     this.currentPage = 0;
-    this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro, this.valorMinFiltro, this.valorMaxFiltro);
+    this.carregarAcomodacoesComFiltros(this.currentPage, this.nomeFiltro, this.qtdHospedesFiltro);
   }
 
   limparFiltros() {
     this.nomeFiltro = '';
-    this.qtdHospedesFiltro = null;
-    this.valorMinFiltro = null;
-    this.valorMaxFiltro = null;
+    this.qtdHospedesFiltro = '';
     this.carregarAcomodacoesPaginadas();
   }
 }
