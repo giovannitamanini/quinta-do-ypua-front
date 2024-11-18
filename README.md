@@ -1,27 +1,64 @@
-# Pousada5ypua
+# Projeto Angular 13
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.0.4.
+Este repositório contém um projeto desenvolvido com Angular 13. Siga as instruções abaixo para configurar, rodar e construir o projeto no seu ambiente local.
 
-## Development server
+---
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+## 🛠 Pré-requisitos
 
-## Code scaffolding
+Antes de começar, certifique-se de ter as seguintes ferramentas instaladas:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. **Node.js**  
+   - Baixe e instale a versão 14 ou superior do [Node.js](https://nodejs.org/).
+   - Verifique a instalação executando os comandos:
+     ```bash
+     node -v
+     npm -v
+     ```
 
-## Build
+2. **Angular CLI**  
+   - Instale globalmente com o comando:
+     ```bash
+     npm install -g @angular/cli
+     ```
+   - Confirme a instalação verificando a versão:
+     ```bash
+     ng version
+     ```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+---
 
-## Running unit tests
+## 🚀 Passo a Passo para Configurar e Rodar o Projeto
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### 1. Clone o Repositório
 
-## Running end-to-end tests
+Faça o download do projeto para o seu ambiente local:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
+git clone <URL_DO_REPOSITORIO>
+```
 
-## Further help
+Entre na pasta do projeto clonado:
+```bash
+cd <NOME_DO_DIRETORIO_DO_PROJETO>
+```
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Instale todas as bibliotecas e pacotes necessários:
+```bash
+npm install
+```
+
+Para iniciar o servidor de desenvolvimento, execute:
+```bash
+ng serve
+```
+
+O servidor estará disponível no navegador no endereço:
+```bash
+http://localhost:4200/
+```
+
+Para gerar os arquivos otimizados para produção, execute:
+```bash
+ng build
+```
